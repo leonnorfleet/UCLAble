@@ -43,20 +43,20 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 # UCLAble---CS35L-Group-Project
 Repo for CS35L Group Project
 
-While in the client/ directory, run the command <npm install>
+While in the client/ directory, run the command npm install
 
 How to run server code:
   1. cd into client/server_files/
   3. go to the shared MongoDB project
   4. Database Access => add new database user => remember the username and password
   5. Database => Connect => Drivers => copy the connection string and replace the username and password fields
-  6. paste this into the <const uri> variable and save the files
-  7. run the command <nodemon insert.js> to run the server
+  6. paste this into the const uri variable and save the files
+  7. run the command nodemon insert.js to run the server
 
 How to run the client application:
   1. cd into client/
-  2. run the command <npm start>
-  3. keep in mind that the react app only works properly when the <insert.js> file in the server directory is running
+  2. run the command npm start
+  3. keep in mind that the react app only works properly when the insert.js file in the server directory is running
   4. changes can be seen on the MongoDB database
 
 Notes:
