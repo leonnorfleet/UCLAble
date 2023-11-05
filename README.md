@@ -39,32 +39,30 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+-----------------------------------------------------------------------------------------------------------
+# UCLAble---CS35L-Group-Project
+Repo for CS35L Group Project
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+How to run server code:
+  1. cd into the server directory
+  2. run the command <npm install>
+  3. go to the shared MongoDB project
+  4. Database Access => add new database user => remember the username and password
+  5. Database => Connect => Drivers => copy the connection string and replace the <username> and <password> fields
+  6. paste this into the <const uri> variable and save the files
+  7. run the command <nodemon insert.js> to run the server
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+How to run the client application:
+  1.  cd into the client directory
+  2.  run the command <npm install>
+  3. keep in mind that the react app only works properly when the <insert.js> file in the server directory is running
+  4. changes can be seen on the MongoDB database
 
-### Code Splitting
+Notes:
+  - insert.js(located in the server directory) is a prototype for uploading data into the MongoDB database(works properly, need to implement a react form and send the data that way)
+  - changes.js(located in the server directory) is a prototype for listening for changes to the data in the MongoDB database(works)
+  - index.js(located in the server directory) was a random first attempt, isn't important
+  - The react code for uploading the data is in Post.js(located in client/src)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
