@@ -8,7 +8,7 @@ const app = express();
 const port = 5000;
 
 // Replace the uri string with your MongoDB deployment's connection string.
-const uri = 'mongodb+srv://<username>:<password>@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://admin:abc1234@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
 
 const client = new MongoClient(uri);
 
