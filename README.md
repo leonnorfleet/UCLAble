@@ -50,7 +50,7 @@ How to run server code:
   3. go to the shared MongoDB project
   4. Database Access => add new database user => remember the username and password
   5. Database => Connect => Drivers => copy the connection string and replace the username and password fields
-  6. paste this into the const uri variable and save the files
+  6. paste this into the "const uri" variable and save the files
   7. run the command nodemon insert.js to run the server
 
 How to run the client application:
