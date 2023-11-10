@@ -9,6 +9,10 @@ const client = new MongoClient(uri);
 // Declare a variable to hold the change stream
 let changeStream;
 
+/*
+This js script is for viewing when changes happen to the mongodb database. Mainly for testing interactions with the app 
+*/
+
 // Define an asynchronous function to manage the change stream
 async function run() {
   try {
@@ -16,10 +20,10 @@ async function run() {
     await client.connect();
     console.log('Connected to MongoDB.');
 
-    const database = client.db('sample_mflix');
-    const users = database.collection('users');
+    const database = client.db('uclable_data'); // Connecting to the proper database and collection
+    const users = database.collection('forms');
 
-    // Open a Change Stream on the 'haikus' collection
+    // Open a Change Stream on the 'users' collection
     changeStream = users.watch();
     console.log('Listening for changes...');
 

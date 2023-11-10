@@ -1,20 +1,19 @@
 import React from 'react'
 import Axios from 'axios'
+import Form from './Form';
 
 function Post() {
 
-    function handleClick() {
-        Axios.post('http://localhost:5000/upload', {
-            name: 'name2022',
-            email: 'name2022@email.com',
-            password: 'passwordnumber50044'
-        }).then(res => console.log(res.data))
+    function handleClick(obj) { // Function for uploading an object that can be passed to the form components(report, account, etc.)
+        Axios.post('http://localhost:5000/upload', obj).then(res => console.log(res.data))
         .catch(err => console.log(err))
     }
 
     return (
         <div>
-        <button onClick={handleClick}>Click me to send the form</button>
+            <h1>Post a Report</h1>
+            <br/>
+            <Form func={handleClick}/>
         </div>
     );
 }
