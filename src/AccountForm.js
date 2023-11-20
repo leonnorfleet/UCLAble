@@ -1,0 +1,38 @@
+import { useState } from 'react';
+
+function AccountForm({func}) {
+
+    const [formData, setFormData] =  useState({name: '', email: '', password: ''});
+
+    const handleChange = (event) => {
+		const { name, value } = event.target;
+        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+	};
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        func(formData);
+        setFormData({name: '', email: '', password: ''});
+        alert('Form Submitted!')
+    }
+
+    return(
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor='name'></label>
+                <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
+
+                <label htmlFor='email'></label>
+                <input type='email' id='email' name='email' value={formData.email} onChange={handleChange} placeholder='Email'/>
+
+                <label htmlFor='pass'></label>
+                <input type='password' id='password' name='password' value={formData.password} onChange={handleChange} placeholder='Password'/>
+
+                <button type='submit'>Submit</button>
+            </form>
+            <p></p>
+        </div>
+    );
+}
+
+export default AccountForm;
