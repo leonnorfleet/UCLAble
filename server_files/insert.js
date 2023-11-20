@@ -8,7 +8,7 @@ const app = express();
 const port = 5000;
 
 // Replace the uri string with your MongoDB deployment's connection string.
-const uri = 'mongodb+srv://admin:abc1234@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://user:etT59jHnbIxskq2U@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
 
 const client = new MongoClient(uri);
 
@@ -28,20 +28,26 @@ async function run() {
     })
 
     // Connect to the proper database and collection
-    await client.connect();
-    const database = client.db('uclable_data');
+    const mongoClient = await client.connect();
+    const database = mongoClient.db('uclable_data');
     const users = database.collection('forms');
     console.log('Connected to MongoDB.');
 
-    app.get('/', (req, res) => { // Ignore this it doesnt do anything, making sure the server is online
-      res.send('hello');
+
+    /*
+    When the app sends a request to the server, pull all report forms from the mongodb database and send them to the client
+    Might format the form before sending it to the user based on how we are designing the feature
+    */
+    app.get('/view-posts', async (req, res) => {
+      let forms = await users.find({}).toArray()
+      res.json(forms)
     })
 
     /*
     When the app sends an object to the server, add the current date it is being sent at, convert it into a json object,
     log the data that will be uploaded for devs to see in the console and then upload it to the database
     */
-    app.post('/upload', (req, res) => { 
+    app.post('/upload-report', (req, res) => { 
       const body = req.body;
       let data = {
         name: body.name,

@@ -6,7 +6,7 @@ const port = 5000;
 async function run() {
 
   //connection uri for mongodb cluster
-  const uri = 'mongodb+srv://admin:abc1234@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
+  const uri = 'mongodb+srv://user:etT59jHnbIxskq2U@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
 
   const client = new MongoClient(uri);
 
