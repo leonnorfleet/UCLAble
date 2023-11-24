@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
-import Navbar from './Navbar';
-import Post from './Post'
-import View from './View';
+import Navbar from './components/Navbar';
+import Post from './components/Post';
+import View from './components/View';
 
 function App() {
 
