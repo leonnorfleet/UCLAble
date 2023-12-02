@@ -34,6 +34,8 @@ async function run() {
     const mongoClient = await client.connect();
     const database = mongoClient.db('uclable_data');
     const users = database.collection('forms');
+    // Use 'accounts' collection for signups
+    const accounts = database.collection('accounts'); 
     console.log('Connected to MongoDB.');
 
 
@@ -74,18 +76,13 @@ async function run() {
           return res.status(400).send("Invalid email. UCLA members only.");
         }
 
-       // Validate Password
+        // Validate Password
         if (!/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
           return res.status(400).send("Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".");
         }
 
-        // Connect to MongoDB and access the users collection
-        await client.connect();
-        const database = client.db('uclable_data');
-        const users = database.collection('forms');
-
-        // Check if user already exists
-        const existingUser = await users.findOne({ email });
+        // Check if user already exists in 'accounts' collection
+        const existingUser = await accounts.findOne({ email });
         if (existingUser) {
           return res.status(400).send("User already exists.");
         }
@@ -93,8 +90,8 @@ async function run() {
         // Hash Password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create new user
-        await users.insertOne({ email, password: hashedPassword });
+        // Create new user in 'accounts' collection
+        await accounts.insertOne({ email, password: hashedPassword });
         res.status(201).send("User created successfully.");
       
       } catch (error) {
@@ -114,7 +111,7 @@ async function run() {
         }
 
         // Check if user exists
-        const user = await User.findOne({ email });
+        const user = await accounts.findOne({ email });
         if (!user) {
           return res.status(401).send("User not found.");
         }
