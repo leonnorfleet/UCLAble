@@ -1,5 +1,5 @@
 // Watch for changes in a collection by using a change stream
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 //Express for communicating with react app
 const express = require('express');
@@ -59,72 +59,12 @@ async function run() {
         date: new Date(),
         location: body.location,
         title: body.title,
-        description: body.description
+        description: body.description,
+        votes: 0
       };
       res.json(data);
       uploadData(data, users);
     })
-
-    // Add Signup Route
-    app.post('/signup', async (req, res) => {
-      try {
-        // Validate input, hash password, store new user in database
-        const { email, password } = req.body;
-
-        // Validate Email
-        if (!/@(g\.)?ucla\.edu$/.test(email)) {
-          return res.status(400).send("Invalid email. UCLA members only.");
-        }
-
-        // Validate Password
-        if (!/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-          return res.status(400).send("Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".");
-        }
-
-        // Check if user already exists in 'accounts' collection
-        const existingUser = await accounts.findOne({ email });
-        if (existingUser) {
-          return res.status(400).send("User already exists.");
-        }
-
-        // Hash Password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create new user in 'accounts' collection
-        await accounts.insertOne({ email, password: hashedPassword });
-        res.status(201).send("User created successfully.");
-      
-      } catch (error) {
-        res.status(500).send("Error during signup");
-      }
-    });
-
-    // Add Login Route
-    app.post('/login', async (req, res) => {
-      try {
-       // Validate input, verify user, issue token if applicable
-       const { email, password } = req.body;
-
-        // Validate Email and Password Format
-        if (!/@(g\.)?ucla\.edu$/.test(email) || !/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-          return res.status(400).send("Invalid email or password format.");
-        }
-
-        // Check if user exists
-        const user = await accounts.findOne({ email });
-        if (!user) {
-          return res.status(401).send("User not found.");
-        }
-
-        // Compare password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-          return res.status(401).send("Invalid password.");
-        }
-      } catch (error) {
-        res.status(500).send("Error during login");
-      }
-    });
   } finally {
     // Close the MongoDB client connection
     //await client.close();
@@ -136,4 +76,30 @@ run().catch(console.dir);
 async function uploadData(data, coll) {
   const result = await coll.insertOne(data);
   console.log(`A document was inserted with the _id: ${result.insertedId}`);  
+}
+
+/*
+voting implementation
+DOES NOT WORK PROPERLY!!!
+Since there are no accounts yet, one can press vote, close the popup and reopen it to vote infinitely
+*/
+async function updateVote(data, coll) {
+  if (data.liked) {
+    await coll.updateOne(
+      {_id: new ObjectId(data.idString)},
+      {
+        $inc: {votes: -1}
+      }
+    );
+    console.log(`The votes were updated for a document with the _id: ${data.idString}`);
+  }
+  else {
+    await coll.updateOne(
+      {_id: new ObjectId(data.idString)},
+      {
+        $inc: {votes: 1}
+      }
+    );
+    console.log(`The votes were updated for a document with the _id: ${data.idString}`);
+  }
 }

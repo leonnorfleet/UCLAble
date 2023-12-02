@@ -7,14 +7,6 @@ function View() {
     const [formData, setForms] = useState([])
     const [loading, setLoading] = useState(true);
 
-    // function getForms() {
-    //     Axios.get('http://localhost:5000/view-posts').then(res => { 
-    //         console.log(res.data)
-    //         setForms(res.data) 
-    //     })
-    //     .catch(err => console.log(err))
-    // }
-
     useEffect(() => { // The forms will automatically render on page load
         const fetchData = async () => {
             try {
@@ -30,12 +22,6 @@ function View() {
         }
 
         fetchData()
-
-        // let ignore = false
-
-        // if (!ignore) { getForms() }
-
-        // return () => { ignore = true}
     }, [])
 
     return (
@@ -45,21 +31,32 @@ function View() {
     )
 }
 
+/*
+After receiving all of the forms from the mongodb database in the form of a logn object array, we will map them to components that
+will be rendered generatively and will each display the unique information of the individual reports posted.
+*/
 const ReportPopups = ({forms}) => {
     const [isOpen, setOpen] = useState([])
+
+    function Vote(id, state) {
+        const obj = {idString: id, liked: state}
+
+        Axios.put('http://localhost:5000/vote-post', obj).then(res => console.log(res.data))
+        .catch(err => console.log(err))
+    }
     
     useEffect(() => {
         const initialIsOpen = Array.from({ length: forms.length }, () => false);
         setOpen(initialIsOpen);
       }, [forms]);
-    // setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))
 
     return (
         <>
         {forms.map((item, index) => {
                 return (
                     <li key={index}>
-                        <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>{item.title}</button>
+                        <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
+                            {item.title} <br/> {item.votes}</button>
                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
@@ -70,6 +67,8 @@ const ReportPopups = ({forms}) => {
                                 date={item.date}
                                 location={item.location}
                                 description={item.description}
+                                votes={item.votes}
+                                voteFunc={Vote}
                         />}
                         />
                     </li>   
@@ -78,18 +77,5 @@ const ReportPopups = ({forms}) => {
         </>
     );
 }
-
-/*const Reports = ({forms}) => (
-    <>
-    {forms.map(item => {
-            return (
-                <Report
-                    key={item._id}
-                    props={item}
-                />
-            )
-        })}
-    </>
-);*/
 
 export default View;

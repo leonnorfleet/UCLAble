@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
-import Navbar from './components/Navbar';
-import Post from './components/Post';
-import View from './components/View';
+import Navbar from './components/Navbar.js';
+import Post from './components/Post.js';
+import View from './components/View.js';
+import Home from './components/Home.js'
 
 function App() {
 
@@ -22,7 +23,8 @@ function App() {
     <div>
       <Routes>
         <Route path='/make-a-report' element={<Post/>}></Route>
-        <Route path='see-reports' element={<View/>}></Route>
+        <Route path='/see-reports' element={<View/>}></Route>
+        <Route path='/' element={<Home/>}></Route>    
       </Routes>
     </div>
     </>

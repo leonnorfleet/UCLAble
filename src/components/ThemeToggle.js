@@ -1,9 +1,9 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMoon, faSun} from "@fortawesome/free-solid-svg-icons";
-import toggleTheme from "../hooks/toggleTheme.js";
+import useThemeToggle from '../hooks/useThemeToggle'
 
 export default function ThemeToggle() {
-    const [setTheme, colorTheme] = toggleTheme();
+    const [setTheme, colorTheme] = useThemeToggle();
 
     return (
         <div className='max-w-fit ml-auto my-5 lg:my-10'>
@@ -13,7 +13,7 @@ export default function ThemeToggle() {
                 onClick={() => setTheme(colorTheme)}
             >
                 <FontAwesomeIcon
-                    icon={colorTheme === 'light' ? faSun : faMoon}
+                    icon={colorTheme === 'light' ? faMoon : faSun}
                     className={`h-5 aspect-square rounded-full transition-transform ${
                         colorTheme === 'light' ? 'translate-x-0.5' : 'translate-x-6'
                     }`}
