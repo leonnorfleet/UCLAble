@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const toggleTheme = () => {
+const useThemeToggle = () => {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
     const root = window.document.documentElement;
 
@@ -38,4 +38,4 @@ const toggleTheme = () => {
     return [setTheme, colorTheme];
 };
 
-export default useDarkMode;
+export default useThemeToggle;

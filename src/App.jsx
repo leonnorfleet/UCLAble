@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
+import ThemeToggle from "./components/ThemeToggle.jsx";
 import Navbar from './components/Navbar';
 import Post from './components/Post';
 import View from './components/View';
@@ -22,8 +23,9 @@ function App() {
     <div>
       <Routes>
         <Route path='/make-a-report' element={<Post/>}></Route>
-        <Route path='see-reports' element={<View/>}></Route>
+        <Route path='see-reports' element={<View/>}></Route>      
       </Routes>
+      <ThemeToggle />
     </div>
     </>
   );
