@@ -1,0 +1,18 @@
+.home-container {
+    text-align: center;
+    padding: 20px;
+    font-family: Helvetica, sans-serif;
+  }
+  
+.home-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+  
+
+.home-container h2 {
+    font-size: 1.8rem;
+    color: #ff0000; 
+    margin-bottom: 20px; 
+}
