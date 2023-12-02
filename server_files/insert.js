@@ -12,6 +12,9 @@ const uri = 'mongodb+srv://user:etT59jHnbIxskq2U@cluster0.laxg9wh.mongodb.net/?r
 
 const client = new MongoClient(uri);
 
+//Password hashing
+const bcrypt = require('bcrypt');
+
 /*
 This js script is for uploading javascript objects to the mongodb database in json form
 */
@@ -31,6 +34,8 @@ async function run() {
     const mongoClient = await client.connect();
     const database = mongoClient.db('uclable_data');
     const users = database.collection('forms');
+    // Use 'accounts' collection for signups
+    const accounts = database.collection('accounts'); 
     console.log('Connected to MongoDB.');
 
 
@@ -59,13 +64,6 @@ async function run() {
       };
       res.json(data);
       uploadData(data, users);
-    })
-
-    app.put('/vote-post', (req, res) => {
-      const body = req.body;
-      res.json(body);
-      
-      updateVote(body, users);
     })
   } finally {
     // Close the MongoDB client connection
