@@ -1,0 +1,35 @@
+.post-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .post-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .post-container form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .post-container input[type="text"],
+  .post-container textarea {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .post-container input[type="submit"] {
+    width: 50%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .post-container input[type="submit"]:hover {
+    background-color: #0056b3;
+  }

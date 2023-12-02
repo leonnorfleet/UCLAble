@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
-import Form from './Form';
+import Form from './Form'
+import '../styles/post.css';
 
 function Post() {
 
@@ -10,7 +11,7 @@ function Post() {
     }
 
     return (
-        <div>
+        <div className="post-container">
             <h1>Post a Report</h1>
             <br/>
             <Form func={handleClick}/>
