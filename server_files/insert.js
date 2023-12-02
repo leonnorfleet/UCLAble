@@ -1,5 +1,5 @@
 // Watch for changes in a collection by using a change stream
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 //Express for communicating with react app
 const express = require('express');
@@ -54,10 +54,18 @@ async function run() {
         date: new Date(),
         location: body.location,
         title: body.title,
-        description: body.description
+        description: body.description,
+        votes: 0
       };
       res.json(data);
       uploadData(data, users);
+    })
+
+    app.put('/vote-post', (req, res) => {
+      const body = req.body;
+      res.json(body);
+      
+      updateVote(body, users);
     })
   } finally {
     // Close the MongoDB client connection
@@ -70,4 +78,30 @@ run().catch(console.dir);
 async function uploadData(data, coll) {
   const result = await coll.insertOne(data);
   console.log(`A document was inserted with the _id: ${result.insertedId}`);  
+}
+
+/*
+voting implementation
+DOES NOT WORK PROPERLY!!!
+Since there are no accounts yet, one can press vote, close the popup and reopen it to vote infinitely
+*/
+async function updateVote(data, coll) {
+  if (data.liked) {
+    await coll.updateOne(
+      {_id: new ObjectId(data.idString)},
+      {
+        $inc: {votes: -1}
+      }
+    );
+    console.log(`The votes were updated for a document with the _id: ${data.idString}`);
+  }
+  else {
+    await coll.updateOne(
+      {_id: new ObjectId(data.idString)},
+      {
+        $inc: {votes: 1}
+      }
+    );
+    console.log(`The votes were updated for a document with the _id: ${data.idString}`);
+  }
 }

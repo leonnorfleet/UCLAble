@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-function Report({_id, title, name, date, location, description}) {
+function Report({_id, title, name, date, location, description, votes, voteFunc}) {
 
     const options = {
         year: 'numeric',
@@ -16,6 +16,12 @@ function Report({_id, title, name, date, location, description}) {
     });
 
     date = new Date(date).toLocaleString('en-US', options)
+    const [liked, setLiked] = useState(false)
+
+    function handleClick() {
+        setLiked(!liked)
+        voteFunc(_id, liked)
+    }
 
     return (
         <div>
@@ -25,6 +31,7 @@ function Report({_id, title, name, date, location, description}) {
                 <p>Location: {location}</p>
                 <p>{description}</p>
             </div>
+            <button className='vote-btn' onClick={() => handleClick()}>Vote {votes}</button>
         </div>
     )
 }
