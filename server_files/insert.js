@@ -75,12 +75,17 @@ async function run() {
         }
 
        // Validate Password
-       if (!/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-        return res.status(400).send("Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".");
+        if (!/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
+          return res.status(400).send("Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".");
         }
 
+        // Connect to MongoDB and access the users collection
+        await client.connect();
+        const database = client.db('uclable_data');
+        const users = database.collection('forms');
+
         // Check if user already exists
-        const existingUser = await User.findOne({ email });
+        const existingUser = await users.findOne({ email });
         if (existingUser) {
           return res.status(400).send("User already exists.");
         }
@@ -89,10 +94,9 @@ async function run() {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user
-        const user = new User({ email, password: hashedPassword });
-        await user.save();
-
+        await users.insertOne({ email, password: hashedPassword });
         res.status(201).send("User created successfully.");
+      
       } catch (error) {
         res.status(500).send("Error during signup");
       }
