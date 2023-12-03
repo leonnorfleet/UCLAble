@@ -2,15 +2,21 @@
     display: flex;
     justify-content: left;
     align-items: center;
-    background-color: #2774AE;
+    background-color: #FFF;
     color: #fff;
     padding: 20px 30px;
   }
+
+  .nav-logo img {
+      margin: 0px 0px 0px 0px;
+      width: 70px; /* adjust size */
+      height: auto; /* maintain aspect ratio */
+    }
   
   .nav a {
     text-decoration: none;
-    color: #FFF;
-    margin-right: 30px;
+    color: #00387A;
+    margin-right: 35px;
     transition: color 0.3s ease;
   }
   
