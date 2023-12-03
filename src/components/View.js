@@ -10,7 +10,7 @@ function View() {
     useEffect(() => { // The forms will automatically render on page load
         const fetchData = async () => {
             try {
-                const res = await Axios.get('http://localhost:5000/view-posts')
+                const res = await Axios.get('http://localhost:8080/view-posts')
                 console.log(res.data)
                 setForms(res.data)
                 setLoading(false)
@@ -41,7 +41,7 @@ const ReportPopups = ({forms}) => {
     function Vote(id, state) {
         const obj = {idString: id, liked: state}
 
-        Axios.put('http://localhost:5000/vote-post', obj).then(res => console.log(res.data))
+        Axios.put('http://localhost:8080/vote-post', obj).then(res => console.log(res.data))
         .catch(err => console.log(err))
     }
     
