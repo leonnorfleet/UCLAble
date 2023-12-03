@@ -5,7 +5,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 5000;
+const port = 10000;
 
 // Replace the uri string with your MongoDB deployment's connection string.
 const uri = 'mongodb+srv://user:etT59jHnbIxskq2U@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
