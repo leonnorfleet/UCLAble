@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Report({_id, title, name, date, location, description, votes, voteFunc}) {
+function Report(props) {
 
     const options = {
         year: 'numeric',
@@ -12,26 +12,26 @@ function Report({_id, title, name, date, location, description, votes, voteFunc}
     };
 
     useEffect(() => {
-        console.log(`form id ${_id} loaded!`, )
+        console.log(`form id ${props.id} loaded!`, )
     });
 
-    date = new Date(date).toLocaleString('en-US', options)
+    let fdate = props.date.toLocaleString('en-US', options)
     const [liked, setLiked] = useState(false)
 
     function handleClick() {
         setLiked(!liked)
-        voteFunc(_id, liked)
+        props.voteFunc(props.id, liked)
     }
 
     return (
         <div>
             <div>
-                <h2>{title}</h2>
-                <p>Posted by: {name} on {date}</p>
-                <p>Location: {location}</p>
-                <p>{description}</p>
+                <h2>{props.title}</h2>
+                <p>Posted by: {props.name} on {fdate}</p>
+                <p>Location: {props.location}</p>
+                <p>{props.description}</p>
             </div>
-            <button className='vote-btn' onClick={() => handleClick()}>Vote {votes}</button>
+            <button className='vote-btn' onClick={() => handleClick()}>Vote {props.votes}</button>
         </div>
     )
 }

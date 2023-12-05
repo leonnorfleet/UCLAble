@@ -3,17 +3,20 @@ import { useEffect, useState } from 'react';
 import Report from './Report';
 import Popup from './Popup';
 import '../styles/view.css';
+import Dropdown from './Dropdown';
 
 function View() {
     const [formData, setForms] = useState([])
     const [loading, setLoading] = useState(true);
 
+    if (loading) {} // dealing with annoying warning
+
     useEffect(() => { // The forms will automatically render on page load
         const fetchData = async () => {
             try {
                 const res = await Axios.get('http://localhost:8080/view-posts')
-                console.log(res.data)
-                setForms(res.data)
+                //console.log(res.data)
+                setForms(res.data.map(obj => ({...obj, date: new Date(obj.date)})));
                 setLoading(false)
             }
             catch (err) {
@@ -25,9 +28,16 @@ function View() {
         fetchData()
     }, [])
 
+    const options = [
+        {value: 'votes', label: 'Votes'},
+        {value: 'date', label: 'Date'},
+        {value: 'location', label: 'Location'},
+    ];
+
     return (
         <div className="view-container">
             <h1>View Reports</h1>
+            <Dropdown options={options}/>
             <ReportPopups forms={formData} />
         </div>
     )
@@ -63,7 +73,7 @@ const ReportPopups = ({forms}) => {
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
                             content={<Report 
-                                _id={item._id}
+                                id={item._id}
                                 title={item.title}
                                 name={item.name}
                                 date={item.date}
