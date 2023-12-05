@@ -9,7 +9,7 @@ const useThemeToggle = () => {
         root.classList.add(theme);
         root.classList.remove(colorTheme);
         localStorage.setItem('theme', theme);
-    }, [setTheme, colorTheme]);
+    }, [setTheme, colorTheme, root.classList, theme]);
 
     useEffect(() => {
         const mediaMatch = window.matchMedia('(prefers-color-scheme: dark)');
@@ -33,7 +33,7 @@ const useThemeToggle = () => {
         return () => {
             mediaMatch.removeEventListener('change', colorSchemeChangeListener);
         };
-    }, []);
+    }, [root.classList]);
 
     return [setTheme, colorTheme];
 };

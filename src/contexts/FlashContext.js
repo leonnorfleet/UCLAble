@@ -20,7 +20,7 @@ export function FlashProvider({ children }) {
     }
 
     return () => clearTimeout(timeout);
-  }, [flashData.show]);
+  }, [flashData.show, flashData]);
 
   const contextValue = { flashData, flash };
 

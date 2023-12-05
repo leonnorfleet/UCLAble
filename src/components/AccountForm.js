@@ -12,7 +12,7 @@ function AccountForm({func}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        func(formData);
+        func(formData, 'signup');
         setFormData({name: '', email: '', password: ''});
         alert('Form Submitted!')
     }
