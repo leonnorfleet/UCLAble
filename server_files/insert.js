@@ -79,7 +79,7 @@ async function run() {
 
         // Validate Password
         if (!/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-          return res.status(400).send("Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".");
+          return res.status(400).send('Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".');
         }
 
         // Check if user already exists in 'accounts' collection
