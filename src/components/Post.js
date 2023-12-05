@@ -13,7 +13,6 @@ function Post() {
     return (
         <div className="post-container">
             <h1>Post a Report</h1>
-            <br/>
             <Form func={handleClick}/>
         </div>
     );

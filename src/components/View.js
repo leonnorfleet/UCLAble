@@ -2,6 +2,7 @@ import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import Report from './Report';
 import Popup from './Popup';
+import '../styles/view.css';
 
 function View() {
     const [formData, setForms] = useState([])
@@ -25,9 +26,10 @@ function View() {
     }, [])
 
     return (
-        <>
-        <ReportPopups forms={formData}/>
-        </>
+        <div className="view-container">
+            <h1>View Reports</h1>
+            <ReportPopups forms={formData} />
+        </div>
     )
 }
 
