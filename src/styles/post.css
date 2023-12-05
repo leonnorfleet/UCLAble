@@ -1,35 +1,54 @@
 .post-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .post-container h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  .post-container form {
-    display: flex;
-    align-items: center;
-  }
-  
-  .post-container input[type="text"],
-  .post-container textarea {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .post-container input[type="submit"] {
-    width: 50%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .post-container input[type="submit"]:hover {
-    background-color: #0056b3;
-  }
+  text-align: center;
+  margin-top: 20px;
+}
+
+.post-container h1 {
+  color: #00387A;
+}
+
+.post-container form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.post-container input {
+  padding: 12px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.post-container button {
+  padding: 12px;
+  background-color: #00387A;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  font-size: 16px;
+}
+
+.post-container button:hover {
+  background-color: #FFD100;
+}
+
+.post-container label {
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: bold;
+}
+
+.post-container p {
+  text-align: center;
+  margin-top: 10px;
+  color: #777;
+  font-size: 14px;
+}

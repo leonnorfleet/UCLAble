@@ -1,0 +1,58 @@
+.view-container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.view-container h1 {
+    color: #00387A;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.report-list {
+    list-style: none;
+    padding: 0;
+}
+
+.report-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.report-item button {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #00387A;
+    color: #fff;
+    border: none;
+    border-radius: 0 0 8px 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: left;
+}
+
+.report-item button:hover {
+    background-color: #FFD100;
+}
+
+.report-content {
+    padding: 20px;
+}
+
+.report-content h2 {
+    color: #00387A;
+    margin-bottom: 10px;
+}
+
+.report-content p {
+    margin-bottom: 5px;
+    color: #333;
+}

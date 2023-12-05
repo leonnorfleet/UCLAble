@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../styles/account_form.css';
 
 function AccountForm({func}) {
 
@@ -17,8 +18,9 @@ function AccountForm({func}) {
     }
 
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="account-form-container">
+            <h1>Welcome Back!</h1>
+            <form onSubmit={handleSubmit} className="account-form">
                 <label htmlFor='name'></label>
                 <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
 
