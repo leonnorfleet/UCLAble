@@ -3,6 +3,7 @@ import Navbar from './components/Navbar.js';
 import Post from './components/Post.js';
 import View from './components/View.js';
 import Home from './components/Home.js'
+import AccountForm from './components/AccountForm.js'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
     <Navbar/>
     <div>
       <Routes>
+        <Route path='/login' element={<AccountForm/>}></Route> 
         <Route path='/make-a-report' element={<Post/>}></Route>
         <Route path='/see-reports' element={<View/>}></Route>
         <Route path='/' element={<Home/>}></Route>    
