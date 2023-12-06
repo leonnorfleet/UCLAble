@@ -6,7 +6,7 @@ import logo from '../imgs/uclable_logo.png';
 export default function Navbar() {
     return (
         <nav className="nav">
-            <div class="nav-logo">
+            <div className="nav-logo">
                 <img src={logo} alt="UCLAble Logo"/>
             </div>
             <ul className="nav-links-left">

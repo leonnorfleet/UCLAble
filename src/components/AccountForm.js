@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from "react-router-dom"
 import '../styles/account_form.css';
 
 //AccountForm now takes two props:
@@ -15,7 +16,7 @@ function AccountForm({ mode, func }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        func(formData);
+        func(formData, 'signup');
         setFormData({name: '', email: '', password: ''});
         alert('Form Submitted!');
     }

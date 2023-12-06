@@ -92,7 +92,7 @@ async function run() {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user in 'accounts' collection
-        await accounts.insertOne({ email, password: hashedPassword });
+        await accounts.insertOne({ email, password: hashedPassword, name: req.body.name, likes: [] });
         res.status(201).send("User created successfully.");
       
       } catch (error) {
@@ -100,7 +100,7 @@ async function run() {
       }
     });
 
-    // Add Login Route
+    // Add Login Route, THIS SHOULD BE A GET REQUEST
     app.post('/login', async (req, res) => {
       try {
        // Validate input, verify user, issue token if applicable
@@ -126,6 +126,13 @@ async function run() {
         res.status(500).send("Error during login");
       }
     });
+
+    app.put('/vote-post', (req, res) => {
+      const body = req.body;
+      res.json(body);
+      updateVote(body, users);
+    })
+
   } finally {
     // Close the MongoDB client connection
     //await client.close();

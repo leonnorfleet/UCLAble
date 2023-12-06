@@ -4,7 +4,9 @@ import Post from './components/Post.js';
 import View from './components/View.js';
 import Home from './components/Home.js'
 import AccountForm from './components/AccountForm.js'
+import SignUp from './components/SignUp.js'
 import axios from 'axios'; //HTTP client for making API requests
+
 
 function App() {
 
