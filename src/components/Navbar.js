@@ -15,7 +15,9 @@ export default function Navbar() {
                 <li><Link to="/see-reports">View Reports</Link></li>
             </ul>
             <ul className="nav-links-right">
-                <Link to="/login">Log In</Link>
+                {/* Links to the signup and login pages */}
+                <li><Link to="/signup">Sign Up</Link></li>
+                <li><Link to="/login">Log In</Link></li>
             </ul>
         </nav>
     )
