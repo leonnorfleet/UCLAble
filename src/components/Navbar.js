@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom"
 import '../styles/navbar.css'
 import logo from '../imgs/uclable_logo.png';
+import ThemeToggle from './ThemeToggle.js';
 
 export default function Navbar() {
     return (
@@ -15,7 +16,9 @@ export default function Navbar() {
                 <li><Link to="/see-reports">View Reports</Link></li>
             </ul>
             <ul className="nav-links-right">
-                <Link to="/login">Log In</Link>
+                <li><Link to="/sign-up">Sign Up</Link></li>
+                <li> <Link to="/login">Log In</Link></li>
+                <li><ThemeToggle/></li>
             </ul>
         </nav>
     )
