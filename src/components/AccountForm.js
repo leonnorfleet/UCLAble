@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from "react-router-dom"
 import '../styles/account_form.css';
 
 function AccountForm({func}) {
@@ -33,6 +34,7 @@ function AccountForm({func}) {
                 <button type='submit'>Submit</button>
             </form>
             <p></p>
+            <Link to="/sign-up">Sign Up</Link>
         </div>
     );
 }
