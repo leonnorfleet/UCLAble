@@ -1,6 +1,6 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMoon, faSun} from "@fortawesome/free-solid-svg-icons";
-import useThemeToggle from '../hooks/useThemeToggle'
+import useThemeToggle from "../hooks/useThemeToggle.js";
 
 export default function ThemeToggle() {
     const [setTheme, colorTheme] = useThemeToggle();
