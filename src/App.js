@@ -42,8 +42,8 @@ function App() {
     <Navbar/>
     <div>
       <Routes>
-        <Route path='/login' element={<AccountForm mode="login" func={(formData) => handleAccountFormSubmit('login', formData)} />} />
-        <Route path='/signup' element={<AccountForm mode="signup" func={(formData) => handleAccountFormSubmit('signup', formData)} />} />
+        <Route path='/login' element={<AccountForm mode="login" onSubmit={(formData) => handleAccountFormSubmit('login', formData)} />} />
+        <Route path='/signup' element={<AccountForm mode="signup" onSubmit={(formData) => handleAccountFormSubmit('signup', formData)} />} />
         <Route path='/make-a-report' element={<Post/>} />
         <Route path='/see-reports' element={<View/>} />
         <Route path='/' element={<Home/>} />   

@@ -22,7 +22,7 @@ async function run() {
 
     const database = client.db('uclable_data'); // Connecting to the proper database and collection
     const users = database.collection('forms');
-
+    
     // Open a Change Stream on the 'users' collection
     changeStream = users.watch();
     console.log('Listening for changes...');

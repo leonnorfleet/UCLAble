@@ -6,7 +6,7 @@ import '../styles/account_form.css';
 // mode: is the form for 'signup' or 'login'.
 // func: to be called when the form is submitted.
 
-function AccountForm({ mode, func }) {
+function AccountForm({ mode, onSubmit }) {
     const [formData, setFormData] = useState({name: '', email: '', password: ''});
 
     const handleChange = (event) => {
@@ -16,7 +16,7 @@ function AccountForm({ mode, func }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        func(formData, 'signup');
+        onSubmit(formData, mode); // Pass mode instead of hardcoded 'signup'
         setFormData({name: '', email: '', password: ''});
         alert('Form Submitted!');
     }
@@ -26,7 +26,7 @@ function AccountForm({ mode, func }) {
     return(
         <div className="account-form-container">
             <h1>{isSignup ? 'Sign Up' : 'Login'}</h1>
-            <form func={handleSubmit} className="account-form">
+            <form onSubmit={handleSubmit} className="account-form">
                 {isSignup && (
                     <div>
                         <label htmlFor='name'></label>
