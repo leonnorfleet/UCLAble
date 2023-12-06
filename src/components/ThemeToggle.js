@@ -6,7 +6,7 @@ export default function ThemeToggle() {
     const [setTheme, colorTheme] = useThemeToggle();
 
     return (
-        <div className='max-w-fit ml-auto my-5 lg:my-10'>
+        <div className='max-w-fit ml-auto'>
             <label
                 className='relative py-1 px-1.5 w-14 grid items-center h-7 bg-primary rounded-full cursor-pointer'
                 htmlFor='themeCheckbox'

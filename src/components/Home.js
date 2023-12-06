@@ -7,9 +7,6 @@ function Home() {
         <div className="home-container">
         <h2>Welcome to</h2>
         <h1>UCLAble</h1>
-
-        <Link to="/sign-up">Sign Up</Link>
-        <ThemeToggle/>
         </div>
     )
 }
