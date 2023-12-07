@@ -9,7 +9,15 @@ import axios from 'axios';
 
 function App() {
   const [ user, setUser ] = useState([]);
-  const [ profile, setProfile ] = useState([]);
+  const [ profile, setProfile ] = useState([]); // The data given by GoogleLogin such as name, email, etc
+
+  /*
+  The user data is passed to all other components through props, so make sure to add the props variable
+  to all future component creations
+  Ex. export default function profile(props) {return (<><p>{props.profile ? props.profile.name : ''}</p></>)}
+  Make sure to ALWAYS check if the props.profile value is null before doing anything with it
+  uncomment the console.log on line 49 to see the data that profile contains when it is filled on login
+  */
 
   useEffect(() => {
     // Check if access_token exists in localStorage
@@ -37,7 +45,7 @@ function App() {
           }
         })
         .then((res) => {
-          const profileinf = res.data;
+          const profileinf = res.data; // The data given by GoogleLogin such as name, email, etc
           //console.log(profileinf);
 
           axios.post('http://localhost:8080/account-interact', profileinf)
@@ -64,7 +72,7 @@ function App() {
     setProfile(null);
   };
 
-  const abutton = () => {
+  const abutton = () => { // Passed to navbar for convenience
     return (
       <>
       {profile ? (
@@ -77,6 +85,7 @@ function App() {
   }
 
   return (
+    // The profile needs to be passed to every component that handles account information and data modification
     <>
     <div>
     <Navbar profile={profile} button={abutton}/>

@@ -62,7 +62,7 @@ async function run() {
       uploadData(data, users);
     })
 
-    app.put('/vote-post', async (req, res) => {
+    app.put('/vote-post', async (req, res) => { // read current state of a liked post for a logged in user and make decisions
       const body = req.body;
       const query = {id: body.userid};
       const account = await accounts.findOne(query);
@@ -81,14 +81,14 @@ async function run() {
 
     app.post('/account-interact', async (req, res) => {
       const body = req.body;
-      let data = {
+      let data = { // Data template for new accounts
         id: body.id,
         email: body.email,
         name: body.name,
         likes: []
       }
       const query = { id: data.id };
-      const result = await accounts.findOne(query);
+      const result = await accounts.findOne(query); // check if an account exists
 
       if (result == null) {
         const newact = await uploadData(data, coll);

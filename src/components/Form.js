@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Select from 'react-select'
-import uclaBuildings from '../objects/Buildings'
+import uclaBuildings from '../objects/Buildings' // list of ucla buildings for dropdown
 
 function Form(props) {
 
@@ -12,6 +12,7 @@ function Form(props) {
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 	};
 
+    // Function for changes made to the dropdown selection
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -21,11 +22,11 @@ function Form(props) {
           }
         }
 
-        if (option == null) {
+        if (option == null) { // dont submit if if the dropdown is null/undefined
             return;
         }
 
-        if (props.profile == null) {
+        if (props.profile == null) { // dont submit if not logged in
             alert('Please log in to post a report.')
             return;
         }

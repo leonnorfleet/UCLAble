@@ -37,6 +37,7 @@ function View(props) {
         fetchData()
     }, [])
 
+    // Handle dropdown selections to modify the current list of reports
     function handleChange(option) {
         setOption(option);
         if (option == null) {
@@ -75,29 +76,31 @@ function View(props) {
     )
 }
 
+//Automatically generate the reports from the get request to mongodb
 const ReportPopups = ({original, forms, profile, func}) => {
     const [isOpen, setOpen] = useState([]);
 
-    async function Vote(id, index) {
+    async function Vote(id, index) { // Dynamically change the number of votes for a logged in user on both the client and server together
         if (profile == null) {
             alert('Please log in to upvote reports.');
             return;
         }
 
+        // formatting necessary data for server call
         const obj = {idString: id, userid: profile.id}
+        // call to node server
         await Axios.put('http://localhost:8080/vote-post', obj).then(res => {
             console.log(res.data);
-            func((prevForms) =>
+            func((prevForms) => // change the value and state of the report that was voted on
                 prevForms.map((forms, i ) =>
                     i === index ? {...forms, votes: forms.votes + res.data.code} : forms
                 )
             )
         })
         .catch(err => console.log(err))
-       console.log(-1);
     }
 
-    useEffect(() => {
+    useEffect(() => { // set initial state of array of reports
         const init = Array.from({length: original.length}, () => false);
         setOpen(init);
     }, [original]);
