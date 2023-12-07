@@ -24,15 +24,20 @@ function AccountForm({ mode, onSubmit }) {
             const regex = /(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/;
             return regex.test(password);
         }
-        // Email validation
+
         if (!validateEmail(formData.email)) {
             alert('Invalid email address. UCLA members only with @ucla.edu or @g.ucla.edu domain');
             return; // Exit the submit function early if validation fails
         }
         if (!validatePass(formData.password)) {
-            alert('Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".');
+            alert('Password must have at least eight characters, at least one uppercase letter, and at least one special character.');
             return; // Exit the submit function early if validation fails
         }
+        if(validateEmail && validatePass) {
+            alert('Sign-up successful! Press OK to redirect to the login page.');
+            window.location.href = "/login";
+        }
+        
         // Prepare data to submit after validation
          const dataToSubmit = {
             ...formData,
@@ -51,14 +56,9 @@ function AccountForm({ mode, onSubmit }) {
             });
     
             const responseData = await response.json();
-            if (response.ok) {
-                alert('Signup successful!');
-                // Handle successful signup, like redirecting to a login page or dashboard
-                res.redirect(`/upload-report?name=${encodeURIComponent(req.user.name)}`);
-            } else {
-                alert(`Signup failed: ${responseData.error}`);
-            }
-        } catch (error) {
+        } 
+        
+        catch (error) {
             console.error('Error during signup:', error);
         }
 
