@@ -22,21 +22,6 @@ const crypto = require('crypto');
 const secretKey = crypto.randomBytes(32).toString('hex');
 console.log('Generated Secret Key:', secretKey);
 
-// Middleware for sessions, cookies, and CORS
-app.use(cors());
-app.use(cookieParser());
-app.use(
-  session({
-    secret: secretKey,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: true, //cookies are sent over HTTPS only
-      httpOnly: true, // cookies are not accessible via client-side script
-    },
-  })
-);
-
 /*
 This js script is for uploading javascript objects to the mongodb database in json form
 */
@@ -47,6 +32,19 @@ async function run() {
 
     app.use(cors());
     app.use(express.json());
+    // Middleware for sessions, cookies, and CORS
+    app.use(cookieParser());
+    app.use(
+      session({
+        secret: secretKey,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          secure: true, //cookies are sent over HTTPS only
+          httpOnly: true, // cookies are not accessible via client-side script
+        },
+      })
+    );
 
     app.listen(port, () => { // Port that the server is listening on
         console.log(`Server listening on port ${port}`)

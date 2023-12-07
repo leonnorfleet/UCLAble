@@ -1,4 +1,4 @@
-export default function voteSort(objArray) {
+export function voteSort(objArray) {
     let temp = objArray.slice();
     return [].concat(temp).sort((a, b) => b.votes - a.votes);
 }
