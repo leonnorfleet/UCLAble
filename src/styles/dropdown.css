@@ -1,0 +1,24 @@
+.select-container {
+    width: 200px;
+  }
+
+  .select-menu {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  .select-value {
+    color: #333;
+    padding: 8px 12px;
+  }
+  
+  .select-option {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .select-option:hover {
+    background-color: #f0f0f0;
+  }
+  

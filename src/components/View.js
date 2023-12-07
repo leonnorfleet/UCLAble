@@ -36,8 +36,11 @@ function View() {
 
     return (
         <div className="view-container">
-            <h1>Filter by:</h1>
-            <Dropdown options={options}/>
+            <h1>Reports</h1>
+            <div className="filter-container"> {/* New div to contain the filter elements */}
+                <h2>Filter by:</h2>
+                <Dropdown options={options} />
+            </div>
             <ReportPopups forms={formData} />
         </div>
     )
@@ -63,10 +66,10 @@ const ReportPopups = ({forms}) => {
       }, [forms]);
 
     return (
-        <>
+        <ul className="report-list">
         {forms.map((item, index) => {
                 return (
-                    <li key={index}>
+                    <li key={index} className="report-item">
                         <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
                             {item.title} <br/> {item.votes}</button>
                         <Popup 
@@ -86,7 +89,7 @@ const ReportPopups = ({forms}) => {
                     </li>   
                 )
             })}
-        </>
+        </ul>
     );
 }
 

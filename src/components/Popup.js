@@ -5,7 +5,9 @@ const Popup = props => {
         <div className="popup-box">
             <div className="box">
                 <button className="btn-close" onClick={props.handleClose}>X</button>
-                {props.content}
+                <div className="popup-report-container">
+                    {props.content}
+                </div>
             </div>
         </div>
     ) : null;
