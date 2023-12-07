@@ -1,14 +1,30 @@
-import { useState } from 'react';
 import { Link } from "react-router-dom"
+import { GoogleLogin } from 'react-google-login';
 import '../styles/account_form.css';
+import React, { useState } from 'react';
+import { useAuth } from './AuthenticationState.js';
 
-//AccountForm now takes two props:
-// mode: is the form for 'signup' or 'login'.
-// onSubmit: to be called when the form is submitted.
 
 function AccountForm({ mode, onSubmit }) {
+    const { login } = useAuth();
     const [formData, setFormData] = useState({name: '', email: '', password: ''});
 
+    const responseGoogle = async (response) => {
+        try {
+          const tokenId = response.tokenId;
+          const serverResponse = await fetch('/google-login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tokenId }),
+          });
+          const data = await serverResponse.json();
+        } catch (error) {
+          console.error('Error during Google Sign-In:', error);
+        }
+      };
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -16,54 +32,6 @@ function AccountForm({ mode, onSubmit }) {
 
     const handleSubmit = async(event) => {
         event.preventDefault();
-        function validateEmail(email) {
-            const regex = /@(g\.)?ucla\.edu$/;
-            return regex.test(email);
-        }
-        function validatePass(password) {
-            const regex = /(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/;
-            return regex.test(password);
-        }
-
-        if (!validateEmail(formData.email)) {
-            alert('Invalid email address. UCLA members only with @ucla.edu or @g.ucla.edu domain');
-            return; // Exit the submit function early if validation fails
-        }
-        if (!validatePass(formData.password)) {
-            alert('Password must have at least eight characters, at least one uppercase letter, and at least one special character.');
-            return; // Exit the submit function early if validation fails
-        }
-        if(validateEmail && validatePass) {
-            alert('Sign-up successful! Press OK to redirect to the login page.');
-            window.location.href = "/login";
-        }
-        
-        // Prepare data to submit after validation
-         const dataToSubmit = {
-            ...formData,
-            email: formData.email.trim().toLowerCase(), // Trim whitespace and convert to lowercase
-            name: formData.name.trim(), // Trim whitespace from the name
-            createdAt: new Date().toISOString() // Add a timestamp (if needed)
-        };
-
-        try {
-            const response = await fetch('/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataToSubmit),
-            });
-    
-            const responseData = await response.json();
-        } 
-        
-        catch (error) {
-            console.error('Error during signup:', error);
-        }
-
-        onSubmit(dataToSubmit, mode); // Pass mode 
-        setFormData({name: '', email: '', password: ''});
     }
 
     const isSignup = mode === 'signup';
@@ -71,6 +39,13 @@ function AccountForm({ mode, onSubmit }) {
     return(
         <div className="account-form-container">
             <h1>{isSignup ? 'Sign Up' : 'Login'}</h1>
+            <GoogleLogin
+              clientId="77081081456-7du49eo167ere00c7npqidttt56qcjlu.apps.googleusercontent.com"
+              buttonText="Login with Google"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={'single_host_origin'}
+              />
             <form onSubmit={handleSubmit} className="account-form">
                 {isSignup && (
                     <div>
