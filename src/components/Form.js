@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import Select from 'react-select'
+import uclaBuildings from '../objects/Buildings'
 
-function Form({func}) {
+function Form(props) {
 
-    const [formData, setFormData] =  useState({name: '', location: '', title: '', 
-    description: ''});
+    const [formData, setFormData] =  useState({title: '', description: ''});
+    const [option, setOption] = useState();
 
     const handleChange = (event) => { // Updating the form data as users type
 		const { name, value } = event.target;
@@ -18,21 +20,38 @@ function Form({func}) {
             return; // Exit the function if any field is empty
           }
         }
+
+        if (option == null) {
+            return;
+        }
+
+        if (props.profile == null) {
+            alert('Please log in to post a report.')
+            return;
+        }
       
         // If all fields are not empty, execute the following code
-        func(formData);
-        setFormData({ name: '', location: '', title: '', description: '' });
+        let subData = {name: props.profile.name, location: option.label, title: formData.title, description: formData.description};
+        props.func(subData);
+        //console.log(subData);
+        setFormData({title: '', description: '' });
+        setOption(null);
         alert('Form Submitted!');
     };
+
+    function handleSelect (option) {
+        setOption(option);
+        //console.log(option);
+    }
 
     return(
         <div>
             <form onSubmit={handleSubmit}>
-                <label htmlFor='name'></label>
-                <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
-
-                <label htmlFor='location'></label>
-                <input type='text' id='location' name='location' value={formData.location} onChange={handleChange} placeholder='Location'/>
+                <Select
+                    options={uclaBuildings}
+                    isClearable={true}
+                    onChange={handleSelect}
+                />
 
                 <label htmlFor='title'></label>
                 <input type='text' id='title' name='title' value={formData.title} onChange={handleChange} placeholder='Title'/>

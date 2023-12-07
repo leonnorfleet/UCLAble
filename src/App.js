@@ -1,54 +1,49 @@
+import React, {useState, useEffect} from 'react';
 import { Route, Routes } from 'react-router-dom'
-import Navbar from './components/Navbar.js';
-import Post from './components/Post.js';
-import View from './components/View.js';
-import Home from './components/Home.js'
-import AccountForm from './components/AccountForm.js'
-import SignUp from './components/SignUp.js'
-import axios from 'axios'; //HTTP client for making API requests
-
+import Navbar from './components/Navbar';
+import Post from './components/Post';
+import View from './components/View';
+import Home from './components/Home';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 function App() {
 
-  /* Testing out how to sort dates by recency
-  function handleClick() { 
-    let day1 = new Date('August 19, 1975 23:15:30');
-    let day2 = new Date('February 19, 2010 23:15:30');
-    let arr = [day2, day1];
-    arr.sort(function(a, b) {
-      return b - a;
-    });
-    console.log(arr);
-  }*/
-
-
-  // Function to handle signup or login
-  const handleAccountFormSubmit = (mode, formData) => {
-    const url = mode === 'signup' ? 'http://localhost:8080/signup' : 'http://localhost:8080/login';
-    
-    axios.post(url, formData)
-      .then(response => {
-        // success 
-        console.log(response.data);
-      })
-      .catch(error => {
-        // errors 
-        console.error('Error:', error.response ? error.response.data : error.message);
-      });
-  };
+  const abutton = () => {
+    return (
+      <>
+      {profile ? (
+        <button onClick={logOut}>Log out</button>
+      ) : (
+        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+      )}
+      </>
+    );
+  }
 
   return (
     <>
-    <Navbar/>
     <div>
+    <Navbar profile={profile} button={abutton}/>
       <Routes>
-        <Route path='/login' element={<AccountForm mode="login" onSubmit={(formData) => handleAccountFormSubmit('login', formData)} />} />
-        <Route path='/signup' element={<AccountForm mode="signup" onSubmit={(formData) => handleAccountFormSubmit('signup', formData)} />} />
-        <Route path='/make-a-report' element={<Post/>} />
-        <Route path='/see-reports' element={<View/>} />
-        <Route path='/' element={<Home/>} />   
+        <Route path='/make-a-report' element={<Post profile={profile}/>}></Route>
+        <Route path='see-reports' element={<View profile={profile}/>}></Route>
+        <Route path='/' element={<Home profile={profile}/>}></Route>
       </Routes>
     </div>
+    {/*profile ? (
+      <div>
+        <img src={profile.picture} alt="user" />
+        <h3>User Logged in</h3>
+        <p>Name: {profile.name}</p>
+        <p>Email Address: {profile.email}</p>
+        <br />
+        <br />
+        <button onClick={logOut}>Log out</button>
+      </div>
+      ) : (
+        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+      )*/}
     </>
   );
 }

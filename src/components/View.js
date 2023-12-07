@@ -2,25 +2,31 @@ import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import Report from './Report';
 import Popup from './Popup';
-import '../styles/view.css';
-import CreatableSelect from 'react-select/creatable';
-import options from './Filters';
-import { voteSort, dateSort, locationSort, titleSort } from '../functions/Sorts';
+import CreatableSelect from 'react-select/creatable'
+import options from '../objects/Filters';
+import { voteSort, dateSort, titleSort, locationSort } from '../objects/Sorts';
 
-function View() {
-    const [formData, setForms] = useState([])
+function View(props) {
+    const [initial, setInit] = useState([]); // Original copy for reversion
+    const [formData, setForms] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selOption, setOption] = useState(options[1]);
+    const [option, setOption] = useState();
 
-    if (loading) {} // dealing with annoying warning
+    if (loading | option) {} // Fixing annoying warning
 
     useEffect(() => { // The forms will automatically render on page load
         const fetchData = async () => {
             try {
                 const res = await Axios.get('http://localhost:8080/view-posts')
                 //console.log(res.data)
-                setForms(dateSort(res.data.map(obj => ({...obj, date: new Date(obj.date)})), 'd'));
+                const resArr = dateSort(res.data.map(item => ({
+                    ...item,
+                    date: new Date(item.date)
+                })));
+                setInit(resArr);
+                setForms(resArr)
                 setLoading(false)
+
             }
             catch (err) {
                 console.log(err)
@@ -31,79 +37,81 @@ function View() {
         fetchData()
     }, [])
 
-    const forms = formData;
-
-    function handleChange(selOption) {
-        if (selOption == null) {
-            console.log('reverting to original state');
-            console.log(forms);
+    function handleChange(option) {
+        setOption(option);
+        if (option == null) {
+            setForms(initial);
             return;
         }
-        console.log('calling sorting function for:', selOption.label);
-        setOption(selOption.label);
-        switch(selOption.value) {
+        let changed = [];
+        switch(option.value) {
             case 'votes':
-                setForms(voteSort(formData));
+                changed = voteSort(formData, 'd');
                 break;
             case 'date':
-                setForms(dateSort(formData, 'd'));
+                changed = dateSort(formData, 'd');
                 break;
             default:
-                if (selOption.label.includes('title: ')) {
-                    setForms(titleSort(formData, selOption.label.slice(7)));
+                if (option.label.includes('title: ')) {
+                    changed = titleSort(formData, option.label.slice(7));
                 }
                 else {
-                    setForms(locationSort(formData, selOption.label));
+                    changed = locationSort(formData, option.label);
                 }
                 break;
         }
-        // props.func(selOption);
+        setForms(changed);
     }
 
     return (
-        <div className="view-container">
-            <h1>Reports</h1>
-            <div className="filter-container">
-                <h2>Filter by:</h2>
-                <CreatableSelect
-                    isClearable={true}
-                    options={options}
-                    onChange={handleChange}
-                    defaultValue={options[1]}
-                    className="custom-select"
-                />
-            </div>
-            <ReportPopups forms={formData} />
-        </div>
+        <>
+        <CreatableSelect
+            options={options}
+            isClearable={true}
+            onChange={handleChange}
+        />
+        <ReportPopups forms={formData} original={initial} profile={props.profile} func={setForms}/>
+        </>
     )
 }
 
-/*
-After receiving all of the forms from the mongodb database in the form of a logn object array, we will map them to components that
-will be rendered generatively and will each display the unique information of the individual reports posted.
-*/
-const ReportPopups = ({forms}) => {
-    const [isOpen, setOpen] = useState([])
+const ReportPopups = ({original, forms, profile, func}) => {
+    const [isOpen, setOpen] = useState([]);
 
-    function Vote(id, state) {
-        const obj = {idString: id, liked: state}
+    async function Vote(id, index) {
+        if (profile == null) {
+            alert('Please log in to upvote reports.');
+            return;
+        }
 
-        Axios.put('http://localhost:8080/vote-post', obj).then(res => console.log(res.data))
+        const obj = {idString: id, userid: profile.id}
+        await Axios.put('http://localhost:8080/vote-post', obj).then(res => {
+            console.log(res.data);
+            func((prevForms) =>
+                prevForms.map((forms, i ) =>
+                    i === index ? {...forms, votes: forms.votes + res.data.code} : forms
+                )
+            )
+        })
         .catch(err => console.log(err))
+       console.log(-1);
     }
-    
+
     useEffect(() => {
-        const initialIsOpen = Array.from({ length: forms.length }, () => false);
-        setOpen(initialIsOpen);
-      }, [forms]);
+        const init = Array.from({length: original.length}, () => false);
+        setOpen(init);
+    }, [original]);
 
     return (
-        <ul className="report-list">
+        <>
         {forms.map((item, index) => {
                 return (
-                    <li key={index} className="report-item">
-                        <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
-                            {item.title} <br/> {item.votes}</button>
+                    <li key={index}>
+                        <div onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
+                            {item.title}
+                        </div>
+                        <br/>
+                        <button onClick={() => {Vote(item._id, index)}}>{'^'} {item.votes}</button>
                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
@@ -114,15 +122,26 @@ const ReportPopups = ({forms}) => {
                                 date={item.date}
                                 location={item.location}
                                 description={item.description}
-                                votes={item.votes}
-                                voteFunc={Vote}
                         />}
                         />
                     </li>   
                 )
             })}
-        </ul>
+        </>
     );
 }
+
+/*const Reports = ({forms}) => (
+    <>
+    {forms.map(item => {
+            return (
+                <Report
+                    key={item._id}
+                    props={item}
+                />
+            )
+        })}
+    </>
+);*/
 
 export default View;

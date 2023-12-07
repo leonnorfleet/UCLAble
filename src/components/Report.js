@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 
 function Report(props) {
 
@@ -16,12 +16,6 @@ function Report(props) {
     });
 
     let fdate = props.date.toLocaleString('en-US', options)
-    const [liked, setLiked] = useState(false)
-
-    function handleClick() {
-        setLiked(!liked)
-        props.voteFunc(props.id, liked)
-    }
 
     return (
         <div>

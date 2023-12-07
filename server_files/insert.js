@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser'); //session-based authentication
 const cors = require('cors');
 const app = express();
 const port = 8080;
+const port = 8080;
 
 // Replace the uri string with your MongoDB deployment's connection string.
 const uri = 'mongodb+srv://user:etT59jHnbIxskq2U@cluster0.laxg9wh.mongodb.net/?retryWrites=true&w=majority';
@@ -54,8 +55,6 @@ async function run() {
     const mongoClient = await client.connect();
     const database = mongoClient.db('uclable_data');
     const users = database.collection('forms');
-    // Use 'accounts' collection for signups
-    const accounts = database.collection('accounts'); 
     console.log('Connected to MongoDB.');
 
 
@@ -86,104 +85,42 @@ async function run() {
       uploadData(data, users);
     })
 
-    // Add Signup Route
-    app.post('/signup', async (req, res) => {
-      try {
-        console.log(req.body);
-        // Validate input, hash password, store new user in database
-        const { email, password, name } = req.body;
-
-        // Validate Email
-        if (!/@(g\.)?ucla\.edu$/.test(email)) {
-          return res.status(400).json({ error: "Invalid email. UCLA members only." });
-        }
-
-        // Validate Password
-        if (!/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-          return res.status(400).json({ error: 'Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".' });
-        }
-
-        // Check if user already exists in 'accounts' collection
-        const existingUser = await accounts.findOne({ email });
-        if (existingUser) {
-          return res.status(400).json({ error: "User already exists." });
-        }
-
-        // Hash Password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create new user in 'accounts' collection
-        await accounts.insertOne({ email, password: hashedPassword, name, likes: [] });
-
-        res.status(201).json({ success: "User created successfully." });
-
-      } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error during signup" });
-      }
-    });
-
-    // Login Route (GET request)
-    app.get('/login', async (req, res) => {
-      console.log(req.body);
-      try {
-        const { email, password } = req.query; // Use query parameters for email and password
-
-        // Validate Email and Password Format
-        if (!/@(g\.)?ucla\.edu$/.test(email) || !/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-          return res.status(400).json({ error: "Invalid email or password format." });
-        }
-
-        // Check if the user exists
-        const user = await accounts.findOne({ email });
-        if (!user) {
-          return res.status(401).json({ error: "User not found." });
-        }
-
-        // Compare the password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-          return res.status(401).json({ error: "Invalid password." });
-        }
-        // User is authenticated, set the userID in the session
-        req.session.userId = user._id;
-        res.status(200).json({ success: "Login successful." });
-        req.session.userName = user.name; // Store user's name in the session
-
-        // Redirect to the "Make Report" page with the user's name pre-filled
-        res.redirect(`/upload-report?name=${encodeURIComponent(user.name)}`);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error during login" });
-      }
-    });
-
-    // Protected route (not fully implemented)
-    app.get('/profile', (req, res) => {
-      if (req.session.userId) {
-        // User is authenticated
-        // Redirect to the "Make Report" page with the user's name pre-filled
-        res.redirect(`/upload-report?name=${encodeURIComponent(req.user.name)}`);
-      } else {
-        // User is not authenticated
-        res.status(401).json({ error: 'Unauthorized' });
-      }
-    });
-
-    app.get('/logout', (req, res) => {
-      req.session.destroy((err) => {
-          if (err) {
-              return res.status(500).json({ error: "Could not log out, please try again." });
-          } else {
-              res.status(200).json({ success: "Logout successful." });
-          }
-      });
-    });
-
-    app.put('/vote-post', (req, res) => {
+    app.put('/vote-post', async (req, res) => {
       const body = req.body;
-      res.json(body);
-      updateVote(body, users);
+      const query = {id: body.userid};
+      const account = await accounts.findOne(query);
+      const curLikes = account.likes;
+
+      if (curLikes.includes(body.idString)) {
+        updateVote(body, users, accounts, -1, body.userid)
+        res.json({status: 'unvoted', code: -1});
+      }
+      else {
+        updateVote(body, users, accounts, 1, body.userid)
+        res.json({status: 'voted', code: 1});
+      }
+      //updateVote(body, users);
+    })
+
+    app.post('/account-interact', async (req, res) => {
+      const body = req.body;
+      let data = {
+        id: body.id,
+        email: body.email,
+        name: body.name,
+        likes: []
+      }
+      const query = { id: data.id };
+      const result = await accounts.findOne(query);
+
+      if (result == null) {
+        const newact = await uploadData(data, coll);
+        console.log('Account not found, created a new one.');
+        res.json(newact);
+      } else {
+        console.log(`Account exists under document with the _id: ${result._id}`);
+        res.json(result);
+      }
     })
 
   } finally {
@@ -197,30 +134,4 @@ run().catch(console.dir);
 async function uploadData(data, coll) {
   const result = await coll.insertOne(data);
   console.log(`A document was inserted with the _id: ${result.insertedId}`);  
-}
-
-/*
-voting implementation
-DOES NOT WORK PROPERLY!!!
-Since there are no accounts yet, one can press vote, close the popup and reopen it to vote infinitely
-*/
-async function updateVote(data, coll) {
-  if (data.liked) {
-    await coll.updateOne(
-      {_id: new ObjectId(data.idString)},
-      {
-        $inc: {votes: -1}
-      }
-    );
-    console.log(`The votes were updated for a document with the _id: ${data.idString}`);
-  }
-  else {
-    await coll.updateOne(
-      {_id: new ObjectId(data.idString)},
-      {
-        $inc: {votes: 1}
-      }
-    );
-    console.log(`The votes were updated for a document with the _id: ${data.idString}`);
-  }
 }
