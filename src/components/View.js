@@ -36,7 +36,7 @@ function View() {
 
     return (
         <div className="view-container">
-            <h1>View Reports</h1>
+            <h1>Filter by:</h1>
             <Dropdown options={options}/>
             <ReportPopups forms={formData} />
         </div>
