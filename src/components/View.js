@@ -5,7 +5,7 @@ import Popup from './Popup';
 import '../styles/view.css';
 import CreatableSelect from 'react-select/creatable';
 import options from './Filters';
-import { voteSort, dateSort, locationSort } from '../functions/Sorts';
+import { voteSort, dateSort, locationSort, titleSort } from '../functions/Sorts';
 
 function View() {
     const [formData, setForms] = useState([])
@@ -49,7 +49,12 @@ function View() {
                 setForms(dateSort(formData, 'd'));
                 break;
             default:
-                setForms(locationSort(formData, selOption.label));
+                if (selOption.label.includes('title: ')) {
+                    setForms(titleSort(formData, selOption.label.slice(7)));
+                }
+                else {
+                    setForms(locationSort(formData, selOption.label));
+                }
                 break;
         }
         // props.func(selOption);
