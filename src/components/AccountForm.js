@@ -54,6 +54,7 @@ function AccountForm({ mode, onSubmit }) {
             if (response.ok) {
                 alert('Signup successful!');
                 // Handle successful signup, like redirecting to a login page or dashboard
+                res.redirect(`/upload-report?name=${encodeURIComponent(req.user.name)}`);
             } else {
                 alert(`Signup failed: ${responseData.error}`);
             }
