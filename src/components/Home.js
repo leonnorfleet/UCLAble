@@ -1,3 +1,4 @@
+import '../styles/home.css';
 
 function Home(props) {
     const appDescription = [
