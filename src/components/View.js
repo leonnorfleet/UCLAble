@@ -62,13 +62,17 @@ function View() {
 
     return (
         <div className="view-container">
-            <h1>Filter by:</h1>
-            <CreatableSelect
-                isClearable={true}
-                options={options}
-                onChange={handleChange}
-                defaultValue={options[1]}
-            />
+            <h1>Reports</h1>
+            <div className="filter-container">
+                <h2>Filter by:</h2>
+                <CreatableSelect
+                    isClearable={true}
+                    options={options}
+                    onChange={handleChange}
+                    defaultValue={options[1]}
+                    className="custom-select"
+                />
+            </div>
             <ReportPopups forms={formData} />
         </div>
     )

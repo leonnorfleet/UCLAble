@@ -11,23 +11,29 @@
     color: #00387A;
     font-size: 30px;
     font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .view-container h2 {
     color: #00387A;
     font-size: 18px;
-  }
+}
 
 .filter-container {
-    display: flex; /* Use flexbox for positioning elements */
-    align-items: center; /* Align items vertically */
-    margin-bottom: 20px; /* Add margin for spacing */
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
+
+.custom-select {
+    flex: 1; 
+    margin-right: 5px; 
+}
+
   
 .filter-container h2 {
-    margin-right: 10px; /* Add spacing between Filter by: and Dropdown */
+    margin-right: 10px; 
 }
 
 .report-list {
@@ -47,8 +53,8 @@
     display: block;
     width: 100%;
     padding: 12px 20px;
-    background-color: #00387A;
-    color: #fff;
+    background-color: #FFFFFF;
+    color: #00387A;
     border: none;
     border-radius: 0 0 8px 8px;
     cursor: pointer;

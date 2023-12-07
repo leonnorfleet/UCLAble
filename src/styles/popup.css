@@ -43,10 +43,6 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
-  .box button:hover {
-    background-color: #FFD100;
-  }
 
   .popup-report-container {
     padding: 20px;
