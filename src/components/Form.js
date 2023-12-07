@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import CreatableSelect from 'react-select'
-import uclaBuildings from '../objects/Buildings.js'
+import Select from 'react-select'
+import uclaBuildings from '../objects/Buildings'
 
 function Form({func}) {
 
@@ -30,6 +30,7 @@ function Form({func}) {
         func(subData);
         //console.log(subData);
         setFormData({ name: '', title: '', description: '' });
+        setOption(null);
         alert('Form Submitted!');
     };
 
@@ -44,7 +45,7 @@ function Form({func}) {
                 <label htmlFor='name'></label>
                 <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
 
-                <CreatableSelect
+                <Select
                     options={uclaBuildings}
                     isClearable={true}
                     onChange={handleSelect}
