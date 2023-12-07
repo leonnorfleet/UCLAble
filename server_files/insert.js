@@ -62,10 +62,21 @@ async function run() {
       uploadData(data, users);
     })
 
-    app.put('/vote-post', (req, res) => {
+    app.put('/vote-post', async (req, res) => {
       const body = req.body;
-      res.json(body);
-      updateVote(body, users);
+      const query = {id: body.userid};
+      const account = await accounts.findOne(query);
+      const curLikes = account.likes;
+
+      if (curLikes.includes(body.idString)) {
+        updateVote(body, users, accounts, -1, body.userid)
+        res.json({status: 'unvoted', code: -1});
+      }
+      else {
+        updateVote(body, users, accounts, 1, body.userid)
+        res.json({status: 'voted', code: 1});
+      }
+      //updateVote(body, users);
     })
 
     app.post('/account-interact', async (req, res) => {
@@ -89,10 +100,6 @@ async function run() {
       }
     })
 
-    app.get('/get-user-votes', (req, res) => {
-      res.json(req.body);
-    })
-
   } finally {
     // Close the MongoDB client connection
     //await client.close();
@@ -106,12 +113,31 @@ async function uploadData(data, coll) {
   console.log(`A document was inserted with the _id: ${result.insertedId}`);  
 }
 
-async function updateVote(data, coll) {
+async function updateVote(data, coll, collAcc, choice, user) {
     await coll.updateOne(
       {_id: new ObjectId(data.idString)},
       {
-        $inc: {votes: 1}
+        $inc: {votes: choice}
       }
     );
     console.log(`The votes were updated for a document with the _id: ${data.idString}`);
+    
+    if (choice == 1) {
+      await collAcc.updateOne(
+        {id: user},
+        {
+          $push: {likes: data.idString}
+        }
+      );
+    }
+    else {
+      await collAcc.updateOne(
+        {id: user},
+        {
+          $pull: {likes: data.idString}
+        }
+      );
+    }
+
+    console.log(`The votes were updated for a user document with the _id: ${data.idString}`);
 }

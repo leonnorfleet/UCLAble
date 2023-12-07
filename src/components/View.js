@@ -70,18 +70,28 @@ function View(props) {
             isClearable={true}
             onChange={handleChange}
         />
-        <ReportPopups forms={formData} original={initial}/>
+        <ReportPopups forms={formData} original={initial} profile={props.profile} func={setForms}/>
         </>
     )
 }
 
-const ReportPopups = ({original, forms, }) => {
+const ReportPopups = ({original, forms, profile, func}) => {
     const [isOpen, setOpen] = useState([]);
 
-    function Vote(id) {
-        const obj = {idString: id, }
-        Axios.put('http://localhost:8080/vote-post', obj).then(res => {
+    async function Vote(id, index) {
+        if (profile == null) {
+            alert('Please log in to upvote reports.');
+            return;
+        }
+
+        const obj = {idString: id, userid: profile.id}
+        await Axios.put('http://localhost:8080/vote-post', obj).then(res => {
             console.log(res.data);
+            func((prevForms) =>
+                prevForms.map((forms, i ) =>
+                    i === index ? {...forms, votes: forms.votes + res.data.code} : forms
+                )
+            )
         })
         .catch(err => console.log(err))
        console.log(-1);
@@ -101,7 +111,7 @@ const ReportPopups = ({original, forms, }) => {
                             {item.title}
                         </div>
                         <br/>
-                        <button onClick={() => {Vote(item._id)}}>{'^'} {item.votes}</button>
+                        <button onClick={() => {Vote(item._id, index)}}>{'^'} {item.votes}</button>
                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
