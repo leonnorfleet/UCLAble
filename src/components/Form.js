@@ -38,7 +38,7 @@ function Form({func}) {
                 <input type='text' id='title' name='title' value={formData.title} onChange={handleChange} placeholder='Title'/>
 
                 <label htmlFor='description'></label>
-                <textarea id='description' name='description' value={formData.description} onChange={handleChange} placeholder='Description'/>
+                <textarea rows= "12" cols ="18" id='description' name='description' value={formData.description} onChange={handleChange} placeholder=' Description'/>
                 
                 <br/>
                 <button type='submit'>Submit</button>
