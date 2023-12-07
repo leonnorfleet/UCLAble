@@ -19,6 +19,7 @@ export default function Navbar() {
                 {/* Links to the signup and login pages */}
                 <li><Link to="/signup">Sign Up</Link></li>
                 <li><Link to="/login">Log In</Link></li>
+                <li><ThemeToggle/></li>
             </ul>
         </nav>
     )
