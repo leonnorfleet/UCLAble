@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom"
 import '../styles/navbar.css'
 import logo from '../imgs/uclable_logo.png';
+import ThemeToggle from './ThemeToggle.js';
 
 export default function Navbar() {
     return (

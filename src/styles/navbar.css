@@ -26,8 +26,12 @@
 }
 
 .nav-links-right {
+  display: flex;
   margin-left: auto;
-  margin-right: 30px;
+}
+
+.nav-links-right li {
+  margin-right: 40px;
 }
 
 .nav a {

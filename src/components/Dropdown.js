@@ -7,7 +7,7 @@ export default function Dropdown(props) {
     function handleChange(selOption) {
         console.log('calling sorting function for:', selOption.label);
         setOption(selOption.label);
-        //props.func(selOption);
+        // props.func(selOption);
     }
 
     return(
