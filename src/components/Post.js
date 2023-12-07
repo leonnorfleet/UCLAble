@@ -12,8 +12,10 @@ function Post() {
 
     return (
         <div className="post-container">
-            <h1>Post a Report</h1>
-            <Form func={handleClick}/>
+             <div className="report-container">
+                <h1>Post a Report</h1>
+                <Form func={handleClick}/>
+            </div>
         </div>
     );
 }
