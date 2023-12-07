@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import Select from 'react-select'
+import '../styles/dropdown.css';
 
 export default function Dropdown(props) {
     const [selOption, setOption] = useState(props.options[0]);
@@ -11,12 +12,14 @@ export default function Dropdown(props) {
     }
 
     return(
-        <>
-        <Select 
-        defaultValue={selOption}
-        onChange={handleChange}
-        options={props.options}
-        />
-        </>
+        <div className="select-container">
+            <Select 
+                defaultValue={selOption}
+                onChange={handleChange}
+                options={props.options}
+                className="select-menu"
+                classNamePrefix="select"
+            />
+        </div>
     )
 }
