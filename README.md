@@ -41,16 +41,18 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 -----------------------------------------------------------------------------------------------------------
 # UCLAble---CS35L-Group-Project
-Repo for CS35L Group Project
+Repo for CS35L Group Project 
+
+Clone the github repo
 
 While in the main directory, run the command npm install
 
 How to run server code:
-  1. cd into /server_files/
+  1. cd into /server_files/ (backend)
   2. run the command nodemon insert.js to run the server
 
-How to run the client application:
-  1. cd into the main directory
+How to run the client application (frontend) :
+  1. In a separate terminal, cd into the main directory
   2. run the command npm start
   3. keep in mind that the react app only works properly when the insert.js file in the server directory is running
   4. changes can be seen with the changes.js node server(optional)
