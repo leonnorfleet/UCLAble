@@ -69,19 +69,27 @@ function View() {
             isClearable={true}
             onChange={handleChange}
         />
-        <ReportPopups forms={formData} original={initial}/>
+        <ReportPopups forms={formData} original={initial} func={setForms}/>
         </>
     )
 }
 
-const ReportPopups = ({original, forms}) => {
-    const [isOpen, setOpen] = useState([])
+const ReportPopups = ({original, forms, func}) => {
+    const [isOpen, setOpen] = useState([]);
 
-    function Vote(id, state) {
-        const obj = {idString: id, liked: state}
-
-        Axios.put('http://localhost:8080/vote-post', obj).then(res => console.log(res.data))
+    function Vote(id, index) {
+        const obj = {idString: id}
+        /*
+        Axios.put('http://localhost:8080/vote-post', obj).then(res => {
+            console.log(res.data);
+            func((prevForms) =>
+          prevForms.map((item, i) =>
+            i === index ? { ...item, votes: res.data.newVoteCount } : item
+          ));
+        })
         .catch(err => console.log(err))
+        */
+       console.log(-1);
     }
 
     useEffect(() => {
@@ -89,17 +97,16 @@ const ReportPopups = ({original, forms}) => {
         setOpen(init);
     }, [original]);
 
-    // setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))
-
     return (
         <>
         {forms.map((item, index) => {
                 return (
                     <li key={index}>
                         <div onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
-                            {item.title} <br/>
-                            <button>{'^'}</button> {item.votes}
+                            {item.title}
                         </div>
+                        <br/>
+                        <button onClick={() => {Vote(item._id, index)}}>{'^'} {item.votes}</button>
                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
@@ -110,8 +117,6 @@ const ReportPopups = ({original, forms}) => {
                                 date={item.date}
                                 location={item.location}
                                 description={item.description}
-                                func={Vote}
-                                votes={item.votes}
                         />}
                         />
                     </li>   

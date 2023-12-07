@@ -81,16 +81,6 @@ async function uploadData(data, coll) {
 }
 
 async function updateVote(data, coll) {
-  if (data.liked) {
-    await coll.updateOne(
-      {_id: new ObjectId(data.idString)},
-      {
-        $inc: {votes: -1}
-      }
-    );
-    console.log(`The votes were updated for a document with the _id: ${data.idString}`);
-  }
-  else {
     await coll.updateOne(
       {_id: new ObjectId(data.idString)},
       {
@@ -98,5 +88,4 @@ async function updateVote(data, coll) {
       }
     );
     console.log(`The votes were updated for a document with the _id: ${data.idString}`);
-  }
 }
