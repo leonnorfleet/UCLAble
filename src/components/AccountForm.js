@@ -16,7 +16,25 @@ function AccountForm({ mode, onSubmit }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(formData, mode); // Pass mode instead of hardcoded 'signup'
+        function validateEmail(email) {
+            const regex = /@(g\.)?ucla\.edu$/;
+            return regex.test(email);
+        }
+        // Email validation
+        if (!validateEmail(formData.email)) {
+            alert('Please enter a valid email address.');
+            return; // Exit the submit function early if validation fails
+        }
+        // Prepare data to submit after validation
+         const dataToSubmit = {
+            ...formData,
+            email: formData.email.trim().toLowerCase(), // Trim whitespace and convert to lowercase
+            name: formData.name.trim(), // Trim whitespace from the name
+            createdAt: new Date().toISOString() // Add a timestamp (if needed)
+        };
+        
+        
+        onSubmit(dataToSubmit, mode); // Pass mode 
         setFormData({name: '', email: '', password: ''});
         alert('Form Submitted!');
     }

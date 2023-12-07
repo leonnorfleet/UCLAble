@@ -31,7 +31,8 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: false, 
+      secure: true, //cookies are sent over HTTPS only
+      httpOnly: true, // cookies are not accessible via client-side script
     },
   })
 );
@@ -90,6 +91,7 @@ async function run() {
     // Add Signup Route
     app.post('/signup', async (req, res) => {
       try {
+        console.log(req.body);
         // Validate input, hash password, store new user in database
         const { email, password, name } = req.body;
 
@@ -125,6 +127,7 @@ async function run() {
 
     // Login Route (GET request)
     app.get('/login', async (req, res) => {
+      console.log(req.body);
       try {
         const { email, password } = req.query; // Use query parameters for email and password
 
@@ -144,7 +147,8 @@ async function run() {
         if (!isMatch) {
           return res.status(401).json({ error: "Invalid password." });
         }
-
+        // User is authenticated, set the userID in the session
+        req.session.userId = user._id;
         res.status(200).json({ success: "Login successful." });
         req.session.userName = user.name; // Store user's name in the session
 
@@ -166,6 +170,16 @@ async function run() {
         // User is not authenticated
         res.status(401).json({ error: 'Unauthorized' });
       }
+    });
+
+    app.get('/logout', (req, res) => {
+      req.session.destroy((err) => {
+          if (err) {
+              return res.status(500).json({ error: "Could not log out, please try again." });
+          } else {
+              res.status(200).json({ success: "Logout successful." });
+          }
+      });
     });
 
     app.put('/vote-post', (req, res) => {
