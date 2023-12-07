@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import CreatableSelect from 'react-select'
+import uclaBuildings from '../objects/Buildings.js'
 
 function Form({func}) {
 
-    const [formData, setFormData] =  useState({name: '', location: '', title: '', 
-    description: ''});
+    const [formData, setFormData] =  useState({name: '', title: '', description: ''});
+    const [option, setOption] = useState();
 
     const handleChange = (event) => { // Updating the form data as users type
 		const { name, value } = event.target;
@@ -18,12 +20,23 @@ function Form({func}) {
             return; // Exit the function if any field is empty
           }
         }
+
+        if (option == null) {
+            return;
+        }
       
         // If all fields are not empty, execute the following code
-        func(formData);
-        setFormData({ name: '', location: '', title: '', description: '' });
+        let subData = {name: formData.name, location: option.label, title: formData.title, description: formData.description};
+        func(subData);
+        //console.log(subData);
+        setFormData({ name: '', title: '', description: '' });
         alert('Form Submitted!');
     };
+
+    function handleSelect (option) {
+        setOption(option);
+        //console.log(option);
+    }
 
     return(
         <div>
@@ -31,8 +44,11 @@ function Form({func}) {
                 <label htmlFor='name'></label>
                 <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
 
-                <label htmlFor='location'></label>
-                <input type='text' id='location' name='location' value={formData.location} onChange={handleChange} placeholder='Location'/>
+                <CreatableSelect
+                    options={uclaBuildings}
+                    isClearable={true}
+                    onChange={handleSelect}
+                />
 
                 <label htmlFor='title'></label>
                 <input type='text' id='title' name='title' value={formData.title} onChange={handleChange} placeholder='Title'/>

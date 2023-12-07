@@ -2,10 +2,13 @@ import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import Report from './Report';
 import Popup from './Popup';
+import CreatableSelect from 'react-select'
 
 function View() {
     const [formData, setForms] = useState([])
     const [loading, setLoading] = useState(true);
+
+    if (loading) {} // Fixing annoying warning
 
     // function getForms() {
     //     Axios.get('http://localhost:5000/view-posts').then(res => { 
@@ -18,7 +21,7 @@ function View() {
     useEffect(() => { // The forms will automatically render on page load
         const fetchData = async () => {
             try {
-                const res = await Axios.get('http://localhost:5000/view-posts')
+                const res = await Axios.get('http://localhost:8080/view-posts')
                 console.log(res.data)
                 setForms(res.data)
                 setLoading(false)
