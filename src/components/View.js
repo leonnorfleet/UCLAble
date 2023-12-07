@@ -94,10 +94,10 @@ const ReportPopups = ({forms}) => {
       }, [forms]);
 
     return (
-        <>
+        <ul className="report-list">
         {forms.map((item, index) => {
                 return (
-                    <li key={index}>
+                    <li key={index} className="report-item">
                         <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
                             {item.title} <br/> {item.votes}</button>
                         <Popup 
@@ -117,7 +117,7 @@ const ReportPopups = ({forms}) => {
                     </li>   
                 )
             })}
-        </>
+        </ul>
     );
 }
 

@@ -1,10 +1,31 @@
 .post-container {
-  text-align: center;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding-bottom: 8%;
+  padding-left: 8%;
+  padding-right: 8%;
+  padding-top: 0%;
+  padding-bottom: 0%;
+  font-family: Helvetica, sans-serif;
+}
+
+.report-container {
+  background-color: #dfedff;
+  color: #00387A;
+  padding: 20px;
   margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  width: 50%;
 }
 
 .post-container h1 {
   color: #00387A;
+  font-size: 30px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .post-container form {
@@ -29,11 +50,12 @@
   background-color: #00387A;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: 100%;
   font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .post-container button:hover {
