@@ -98,13 +98,15 @@ const ReportPopups = ({forms}) => {
       }, [forms]);
 
     return (
-        <ul className="report-list">
+        <div className="report-list">
         {forms.map((item, index) => {
                 return (
-                    <li key={index} className="report-item">
-                        <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
-                            {item.title} <br/> {item.votes}</button>
-                        <Popup 
+                    <li key={index}>
+                        <div className="report-item">
+                            <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
+                                {item.title} <br/> Current Number of Votes: {item.votes}</button>
+                        </div>
+                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
                             content={<Report 
@@ -121,7 +123,7 @@ const ReportPopups = ({forms}) => {
                     </li>   
                 )
             })}
-        </ul>
+        </div>
     );
 }
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import '../styles/report.css';
 
 function Report(props) {
 
@@ -24,12 +25,12 @@ function Report(props) {
     }
 
     return (
-        <div>
-            <div>
+        <div className="big-report-container">
+            <div className="text-report-container">
                 <h2>{props.title}</h2>
                 <p>Posted by: {props.name} on {fdate}</p>
                 <p>Location: {props.location}</p>
-                <p>{props.description}</p>
+                <p>Description: {props.description}</p>
             </div>
             <button className='vote-btn' onClick={() => handleClick()}>Vote {props.votes}</button>
         </div>

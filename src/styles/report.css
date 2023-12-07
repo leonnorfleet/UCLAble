@@ -1,0 +1,30 @@
+.big-report-container {
+    height: 100%;
+    width: 100%;
+}
+  
+.text-report-container h2 {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+  
+.text-report-container  p {
+    color: #00387A;
+    font-size: 16px;
+    line-height: 1.5;
+}
+  
+
+.vote-btn {
+    padding: 8px 16px;
+    background-color: #00387A;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+  

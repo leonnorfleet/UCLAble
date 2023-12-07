@@ -61,21 +61,3 @@
     transition: background-color 0.3s ease;
     text-align: left;
 }
-
-.report-item button:hover {
-    background-color: #FFD100;
-}
-
-.report-content {
-    padding: 20px;
-}
-
-.report-content h2 {
-    color: #00387A;
-    margin-bottom: 10px;
-}
-
-.report-content p {
-    margin-bottom: 5px;
-    color: #333;
-}
