@@ -30,7 +30,7 @@
 .post-container form {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
+  height: 100%;
   margin: 0 auto;
 }
 
