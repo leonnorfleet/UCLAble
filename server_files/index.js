@@ -3,8 +3,6 @@ const { MongoClient } = require('mongodb');
 const app = express();
 const port = 5000;
 
-
-
 async function run() {
 
   //connection uri for mongodb cluster
