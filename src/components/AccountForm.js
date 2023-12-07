@@ -4,7 +4,7 @@ import '../styles/account_form.css';
 
 //AccountForm now takes two props:
 // mode: is the form for 'signup' or 'login'.
-// func: to be called when the form is submitted.
+// onSubmit: to be called when the form is submitted.
 
 function AccountForm({ mode, onSubmit }) {
     const [formData, setFormData] = useState({name: '', email: '', password: ''});
@@ -20,9 +20,17 @@ function AccountForm({ mode, onSubmit }) {
             const regex = /@(g\.)?ucla\.edu$/;
             return regex.test(email);
         }
+        function validatePass(password) {
+            const regex = /(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/;
+            return regex.test(password);
+        }
         // Email validation
         if (!validateEmail(formData.email)) {
-            alert('Please enter a valid email address.');
+            alert('Invalid email address. UCLA members only with @ucla.edu or @g.ucla.edu domain');
+            return; // Exit the submit function early if validation fails
+        }
+        if (!validatePass(formData.password)) {
+            alert('Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".');
             return; // Exit the submit function early if validation fails
         }
         // Prepare data to submit after validation
@@ -32,11 +40,29 @@ function AccountForm({ mode, onSubmit }) {
             name: formData.name.trim(), // Trim whitespace from the name
             createdAt: new Date().toISOString() // Add a timestamp (if needed)
         };
-        
-        
+
+        try {
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSubmit),
+            });
+    
+            const responseData = await response.json();
+            if (response.ok) {
+                alert('Signup successful!');
+                // Handle successful signup, like redirecting to a login page or dashboard
+            } else {
+                alert(`Signup failed: ${responseData.error}`);
+            }
+        } catch (error) {
+            console.error('Error during signup:', error);
+        }
+
         onSubmit(dataToSubmit, mode); // Pass mode 
         setFormData({name: '', email: '', password: ''});
-        alert('Form Submitted!');
     }
 
     const isSignup = mode === 'signup';
