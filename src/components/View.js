@@ -78,7 +78,7 @@ const ReportPopups = ({original, forms, func}) => {
     const [isOpen, setOpen] = useState([]);
 
     function Vote(id, index) {
-        const obj = {idString: id}
+        //const obj = {idString: id}
         /*
         Axios.put('http://localhost:8080/vote-post', obj).then(res => {
             console.log(res.data);

@@ -2,9 +2,9 @@ import { useState } from 'react'
 import Select from 'react-select'
 import uclaBuildings from '../objects/Buildings'
 
-function Form({func}) {
+function Form(props) {
 
-    const [formData, setFormData] =  useState({name: '', title: '', description: ''});
+    const [formData, setFormData] =  useState({title: '', description: ''});
     const [option, setOption] = useState();
 
     const handleChange = (event) => { // Updating the form data as users type
@@ -24,12 +24,17 @@ function Form({func}) {
         if (option == null) {
             return;
         }
+
+        if (props.profile == null) {
+            alert('Please log in to post a report.')
+            return;
+        }
       
         // If all fields are not empty, execute the following code
-        let subData = {name: formData.name, location: option.label, title: formData.title, description: formData.description};
-        func(subData);
+        let subData = {name: props.profile.name, location: option.label, title: formData.title, description: formData.description};
+        props.func(subData);
         //console.log(subData);
-        setFormData({ name: '', title: '', description: '' });
+        setFormData({title: '', description: '' });
         setOption(null);
         alert('Form Submitted!');
     };
@@ -42,9 +47,6 @@ function Form({func}) {
     return(
         <div>
             <form onSubmit={handleSubmit}>
-                <label htmlFor='name'></label>
-                <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
-
                 <Select
                     options={uclaBuildings}
                     isClearable={true}

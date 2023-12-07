@@ -67,6 +67,18 @@ async function run() {
       updateVote(body, users);
     })
 
+    app.post('/account-interact', (req, res) => {
+      const body = req.body;
+      let data = {
+        id: body.id,
+        email: body.email,
+        name: body.name,
+        picture: body.picture,
+        likes: []
+      }
+      res.json(data);
+    })
+
   } finally {
     // Close the MongoDB client connection
     //await client.close();
