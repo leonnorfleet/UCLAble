@@ -3,6 +3,8 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 //Express for communicating with react app
 const express = require('express');
+const session = require('express-session'); //session-based authentication 
+const cookieParser = require('cookie-parser'); //session-based authentication 
 const cors = require('cors');
 const app = express();
 const port = 8080;
@@ -14,6 +16,26 @@ const client = new MongoClient(uri);
 
 //Password hashing
 const bcrypt = require('bcrypt');
+
+//session key
+const crypto = require('crypto');
+const secretKey = crypto.randomBytes(32).toString('hex');
+console.log('Generated Secret Key:', secretKey);
+
+// Middleware for sessions, cookies, and CORS
+app.use(cors());
+app.use(cookieParser());
+app.use(
+  session({
+    secret: secretKey,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: true, //cookies are sent over HTTPS only
+      httpOnly: true, // cookies are not accessible via client-side script
+    },
+  })
+);
 
 /*
 This js script is for uploading javascript objects to the mongodb database in json form
@@ -69,62 +91,95 @@ async function run() {
     // Add Signup Route
     app.post('/signup', async (req, res) => {
       try {
+        console.log(req.body);
         // Validate input, hash password, store new user in database
-        const { email, password } = req.body;
+        const { email, password, name } = req.body;
 
         // Validate Email
         if (!/@(g\.)?ucla\.edu$/.test(email)) {
-          return res.status(400).send("Invalid email. UCLA members only.");
+          return res.status(400).json({ error: "Invalid email. UCLA members only." });
         }
 
         // Validate Password
         if (!/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-          return res.status(400).send('Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".');
+          return res.status(400).json({ error: 'Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".' });
         }
 
         // Check if user already exists in 'accounts' collection
         const existingUser = await accounts.findOne({ email });
         if (existingUser) {
-          return res.status(400).send("User already exists.");
+          return res.status(400).json({ error: "User already exists." });
         }
 
         // Hash Password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user in 'accounts' collection
-        await accounts.insertOne({ email, password: hashedPassword, name: req.body.name, likes: [] });
-        res.status(201).send("User created successfully.");
-      
+        await accounts.insertOne({ email, password: hashedPassword, name, likes: [] });
+
+        res.status(201).json({ success: "User created successfully." });
+
       } catch (error) {
-        res.status(500).send("Error during signup");
+      console.error(error);
+      res.status(500).json({ error: "Error during signup" });
       }
     });
 
-    // Add Login Route, THIS SHOULD BE A GET REQUEST
-    app.post('/login', async (req, res) => {
+    // Login Route (GET request)
+    app.get('/login', async (req, res) => {
+      console.log(req.body);
       try {
-       // Validate input, verify user, issue token if applicable
-       const { email, password } = req.body;
+        const { email, password } = req.query; // Use query parameters for email and password
 
         // Validate Email and Password Format
         if (!/@(g\.)?ucla\.edu$/.test(email) || !/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
-          return res.status(400).send("Invalid email or password format.");
+          return res.status(400).json({ error: "Invalid email or password format." });
         }
 
-        // Check if user exists
+        // Check if the user exists
         const user = await accounts.findOne({ email });
         if (!user) {
-          return res.status(401).send("User not found.");
+          return res.status(401).json({ error: "User not found." });
         }
 
-        // Compare password
+        // Compare the password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-          return res.status(401).send("Invalid password.");
+          return res.status(401).json({ error: "Invalid password." });
         }
+        // User is authenticated, set the userID in the session
+        req.session.userId = user._id;
+        res.status(200).json({ success: "Login successful." });
+        req.session.userName = user.name; // Store user's name in the session
+
+        // Redirect to the "Make Report" page with the user's name pre-filled
+        res.redirect(`/upload-report?name=${encodeURIComponent(user.name)}`);
       } catch (error) {
-        res.status(500).send("Error during login");
+        console.error(error);
+        res.status(500).json({ error: "Error during login" });
       }
+    });
+
+    // Protected route (not fully implemented)
+    app.get('/profile', (req, res) => {
+      if (req.session.userId) {
+        // User is authenticated
+        // Redirect to the "Make Report" page with the user's name pre-filled
+        res.redirect(`/upload-report?name=${encodeURIComponent(req.user.name)}`);
+      } else {
+        // User is not authenticated
+        res.status(401).json({ error: 'Unauthorized' });
+      }
+    });
+
+    app.get('/logout', (req, res) => {
+      req.session.destroy((err) => {
+          if (err) {
+              return res.status(500).json({ error: "Could not log out, please try again." });
+          } else {
+              res.status(200).json({ success: "Logout successful." });
+          }
+      });
     });
 
     app.put('/vote-post', (req, res) => {

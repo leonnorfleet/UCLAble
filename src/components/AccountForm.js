@@ -2,39 +2,95 @@ import { useState } from 'react';
 import { Link } from "react-router-dom"
 import '../styles/account_form.css';
 
-function AccountForm({func}) {
+//AccountForm now takes two props:
+// mode: is the form for 'signup' or 'login'.
+// onSubmit: to be called when the form is submitted.
 
-    const [formData, setFormData] =  useState({name: '', email: '', password: ''});
+function AccountForm({ mode, onSubmit }) {
+    const [formData, setFormData] = useState({name: '', email: '', password: ''});
 
     const handleChange = (event) => {
-		const { name, value } = event.target;
+        const { name, value } = event.target;
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-	};
+    };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        func(formData, 'signup');
+        function validateEmail(email) {
+            const regex = /@(g\.)?ucla\.edu$/;
+            return regex.test(email);
+        }
+        function validatePass(password) {
+            const regex = /(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/;
+            return regex.test(password);
+        }
+        // Email validation
+        if (!validateEmail(formData.email)) {
+            alert('Invalid email address. UCLA members only with @ucla.edu or @g.ucla.edu domain');
+            return; // Exit the submit function early if validation fails
+        }
+        if (!validatePass(formData.password)) {
+            alert('Password must have at least eight characters, at least one uppercase letter, and at least one of the special characters: "@", "$", "%", "!", "^", "&", or "#".');
+            return; // Exit the submit function early if validation fails
+        }
+        // Prepare data to submit after validation
+         const dataToSubmit = {
+            ...formData,
+            email: formData.email.trim().toLowerCase(), // Trim whitespace and convert to lowercase
+            name: formData.name.trim(), // Trim whitespace from the name
+            createdAt: new Date().toISOString() // Add a timestamp (if needed)
+        };
+
+        try {
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSubmit),
+            });
+    
+            const responseData = await response.json();
+            if (response.ok) {
+                alert('Signup successful!');
+                // Handle successful signup, like redirecting to a login page or dashboard
+                res.redirect(`/upload-report?name=${encodeURIComponent(req.user.name)}`);
+            } else {
+                alert(`Signup failed: ${responseData.error}`);
+            }
+        } catch (error) {
+            console.error('Error during signup:', error);
+        }
+
+        onSubmit(dataToSubmit, mode); // Pass mode 
         setFormData({name: '', email: '', password: ''});
-        alert('Form Submitted!')
     }
+
+    const isSignup = mode === 'signup';
 
     return(
         <div className="account-form-container">
-            <h1>Welcome Back!</h1>
+            <h1>{isSignup ? 'Sign Up' : 'Login'}</h1>
             <form onSubmit={handleSubmit} className="account-form">
-                <label htmlFor='name'></label>
-                <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
+                {isSignup && (
+                    <div>
+                        <label htmlFor='name'></label>
+                        <input type='text' id='name' name='name' value={formData.name} onChange={handleChange} placeholder='Name'/>
+                    </div>
+                )}
+                
+                <div>
+                    <label htmlFor='email'></label>
+                    <input type='email' id='email' name='email' value={formData.email} onChange={handleChange} placeholder='Email'/>
+                </div>
 
-                <label htmlFor='email'></label>
-                <input type='email' id='email' name='email' value={formData.email} onChange={handleChange} placeholder='Email'/>
+                <div>
+                    <label htmlFor='password'></label>
+                    <input type='password' id='password' name='password' value={formData.password} onChange={handleChange} placeholder='Password'/>
+                </div>
 
-                <label htmlFor='pass'></label>
-                <input type='password' id='password' name='password' value={formData.password} onChange={handleChange} placeholder='Password'/>
-
-                <button type='submit'>Submit</button>
+                <button type='submit'>{isSignup ? 'Sign Up' : 'Login'}</button>
             </form>
-            <p></p>
-            <Link to="/sign-up">Sign Up</Link>
         </div>
     );
 }
