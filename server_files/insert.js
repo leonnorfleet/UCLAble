@@ -125,35 +125,34 @@ async function run() {
       }
     });
 
-    // Login Route (GET request)
-    app.get('/login', async (req, res) => {
-      console.log(req.body);
+    // Login Route (post request)
+    app.post('/login', async (req, res) => {
       try {
-        const { email, password } = req.query; // Use query parameters for email and password
-
+        const { email, password } = req.body; // Use body for email and password
+    
         // Validate Email and Password Format
         if (!/@(g\.)?ucla\.edu$/.test(email) || !/(?=.*[A-Z])(?=.*[@$%!^&#]).{8,}/.test(password)) {
           return res.status(400).json({ error: "Invalid email or password format." });
         }
-
+    
         // Check if the user exists
         const user = await accounts.findOne({ email });
         if (!user) {
           return res.status(401).json({ error: "User not found." });
         }
-
+    
         // Compare the password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
           return res.status(401).json({ error: "Invalid password." });
         }
-        // User is authenticated, set the userID in the session
+    
+        // User is authenticated
         req.session.userId = user._id;
-        res.status(200).json({ success: "Login successful." });
         req.session.userName = user.name; // Store user's name in the session
-
-        // Redirect to the "Make Report" page with the user's name pre-filled
-        res.redirect(`/upload-report?name=${encodeURIComponent(user.name)}`);
+    
+        // Respond with success and user's name
+        res.status(200).json({ success: "Login successful.", userName: user.name });
       } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error during login" });
