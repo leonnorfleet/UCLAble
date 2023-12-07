@@ -6,7 +6,7 @@ import CreatableSelect from 'react-select/creatable'
 import options from '../objects/Filters';
 import { voteSort, dateSort, titleSort, locationSort } from '../objects/Sorts';
 
-function View() {
+function View(props) {
     const [initial, setInit] = useState([]); // Original copy for reversion
     const [formData, setForms] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,6 +26,7 @@ function View() {
                 setInit(resArr);
                 setForms(resArr)
                 setLoading(false)
+
             }
             catch (err) {
                 console.log(err)
@@ -69,26 +70,20 @@ function View() {
             isClearable={true}
             onChange={handleChange}
         />
-        <ReportPopups forms={formData} original={initial} func={setForms}/>
+        <ReportPopups forms={formData} original={initial}/>
         </>
     )
 }
 
-const ReportPopups = ({original, forms, func}) => {
+const ReportPopups = ({original, forms, }) => {
     const [isOpen, setOpen] = useState([]);
 
-    function Vote(id, index) {
-        //const obj = {idString: id}
-        /*
+    function Vote(id) {
+        const obj = {idString: id, }
         Axios.put('http://localhost:8080/vote-post', obj).then(res => {
             console.log(res.data);
-            func((prevForms) =>
-          prevForms.map((item, i) =>
-            i === index ? { ...item, votes: res.data.newVoteCount } : item
-          ));
         })
         .catch(err => console.log(err))
-        */
        console.log(-1);
     }
 
@@ -106,7 +101,7 @@ const ReportPopups = ({original, forms, func}) => {
                             {item.title}
                         </div>
                         <br/>
-                        <button onClick={() => {Vote(item._id, index)}}>{'^'} {item.votes}</button>
+                        <button onClick={() => {Vote(item._id)}}>{'^'} {item.votes}</button>
                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}

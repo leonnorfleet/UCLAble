@@ -76,13 +76,21 @@ async function run() {
         name: body.name,
         likes: []
       }
-      let account = await checkAccount(data, accounts);
-      if (account == null) {
-        res.json(data);
+      const query = { id: data.id };
+      const result = await accounts.findOne(query);
+
+      if (result == null) {
+        const newact = await uploadData(data, coll);
+        console.log('Account not found, created a new one.');
+        res.json(newact);
+      } else {
+        console.log(`Account exists under document with the _id: ${result._id}`);
+        res.json(result);
       }
-      else {
-        res.json(account);
-      }
+    })
+
+    app.get('/get-user-votes', (req, res) => {
+      res.json(req.body);
     })
 
   } finally {
@@ -106,24 +114,4 @@ async function updateVote(data, coll) {
       }
     );
     console.log(`The votes were updated for a document with the _id: ${data.idString}`);
-}
-
-async function checkAccount(data, coll) {
-  const query = { id: data.id };
-
-  try {
-    const result = await coll.findOne(query);
-
-    if (result == null) {
-      await uploadData(data, coll);
-      console.log('Account not found, created a new one.');
-      return null;
-    } else {
-      console.log(`Account exists under document with the _id: ${result._id}`);
-      return result;
-    }
-  } catch (error) {
-    console.error('Error checking account:', error);
-    return null;
-  }
 }
