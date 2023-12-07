@@ -1,28 +1,50 @@
+/* Popup box styles */
 .popup-box {
     position: fixed;
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
-    height: 100vh;
-}
-
-.box {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .box {
     position: relative;
-    width: 50%;
+    width: 70%;
+    max-width: 600px;
     min-height: 300px;
     background-color: #fff;
     border: 1px solid #999;
     border-radius: 4px;
-    margin: 20px auto;
-    padding: 20px;
-}
-
-.btn-close {
+    padding: 0px;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  
+  .btn-close {
     cursor: pointer;
     border: 1px solid #999;
     border-radius: 50%;
-    position: fixed;
-    right: calc(25% - 30px);
-    top: 15px;
-}
+    padding: 5px;
+    background-color: #fff;
+  }
+  
+  .box button {
+    padding: 10px 20px;
+    margin: 0px;
+    font-size: 16px;
+    background-color: #00387A;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .popup-report-container {
+    padding: 20px;
+  }
+  

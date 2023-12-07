@@ -1,4 +1,4 @@
-export default function voteSort(objArray) {
+export function voteSort(objArray) {
     let temp = objArray.slice();
     return [].concat(temp).sort((a, b) => b.votes - a.votes);
 }
@@ -18,8 +18,10 @@ export function dateSort(objArray, option){
 
 export function locationSort(objArray, lstr) {
     let temp = objArray.slice();
-    if (lstr === '')
-        return [].concat(temp);
+    return [].concat(temp).filter(obj => obj.location.toLowerCase().includes(lstr.toLowerCase()));
+}
 
-    return [].concat(temp).filter(obj => obj.location === lstr);
+export function titleSort(objArray, lstr) {
+    let temp = objArray.slice();
+    return [].concat(temp).filter(obj => obj.title.toLowerCase().includes(lstr.toLowerCase()));
 }

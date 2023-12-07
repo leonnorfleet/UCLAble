@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react';
 import Report from './Report';
 import Popup from './Popup';
 import '../styles/view.css';
-import Dropdown from './Dropdown';
+import CreatableSelect from 'react-select/creatable';
+import options from './Filters';
+import { voteSort, dateSort, locationSort, titleSort } from '../functions/Sorts';
 
 function View() {
     const [formData, setForms] = useState([])
     const [loading, setLoading] = useState(true);
+    const [selOption, setOption] = useState(options[1]);
 
     if (loading) {} // dealing with annoying warning
 
@@ -16,7 +19,7 @@ function View() {
             try {
                 const res = await Axios.get('http://localhost:8080/view-posts')
                 //console.log(res.data)
-                setForms(res.data.map(obj => ({...obj, date: new Date(obj.date)})));
+                setForms(dateSort(res.data.map(obj => ({...obj, date: new Date(obj.date)})), 'd'));
                 setLoading(false)
             }
             catch (err) {
@@ -28,16 +31,48 @@ function View() {
         fetchData()
     }, [])
 
-    const options = [
-        {value: 'votes', label: 'Votes'},
-        {value: 'date', label: 'Date'},
-        {value: 'location', label: 'Location'},
-    ];
+    const forms = formData;
+
+    function handleChange(selOption) {
+        if (selOption == null) {
+            console.log('reverting to original state');
+            console.log(forms);
+            return;
+        }
+        console.log('calling sorting function for:', selOption.label);
+        setOption(selOption.label);
+        switch(selOption.value) {
+            case 'votes':
+                setForms(voteSort(formData));
+                break;
+            case 'date':
+                setForms(dateSort(formData, 'd'));
+                break;
+            default:
+                if (selOption.label.includes('title: ')) {
+                    setForms(titleSort(formData, selOption.label.slice(7)));
+                }
+                else {
+                    setForms(locationSort(formData, selOption.label));
+                }
+                break;
+        }
+        // props.func(selOption);
+    }
 
     return (
         <div className="view-container">
-            <h1>Filter by:</h1>
-            <Dropdown options={options}/>
+            <h1>Reports</h1>
+            <div className="filter-container">
+                <h2>Filter by:</h2>
+                <CreatableSelect
+                    isClearable={true}
+                    options={options}
+                    onChange={handleChange}
+                    defaultValue={options[1]}
+                    className="custom-select"
+                />
+            </div>
             <ReportPopups forms={formData} />
         </div>
     )
@@ -63,10 +98,10 @@ const ReportPopups = ({forms}) => {
       }, [forms]);
 
     return (
-        <>
+        <ul className="report-list">
         {forms.map((item, index) => {
                 return (
-                    <li key={index}>
+                    <li key={index} className="report-item">
                         <button onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
                             {item.title} <br/> {item.votes}</button>
                         <Popup 
@@ -86,7 +121,7 @@ const ReportPopups = ({forms}) => {
                     </li>   
                 )
             })}
-        </>
+        </ul>
     );
 }
 

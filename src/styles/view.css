@@ -2,15 +2,38 @@
     margin: 20px auto;
     padding: 20px;
     max-width: 800px;
-    background-color: #f8f8f8;
+    background-color: #dfedff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .view-container h1 {
     color: #00387A;
-    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: bold;
     text-align: center;
+    margin-bottom: 10px;
+}
+
+.view-container h2 {
+    color: #00387A;
+    font-size: 18px;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.custom-select {
+    flex: 1; 
+    margin-right: 5px; 
+}
+
+  
+.filter-container h2 {
+    margin-right: 10px; 
 }
 
 .report-list {
@@ -30,8 +53,8 @@
     display: block;
     width: 100%;
     padding: 12px 20px;
-    background-color: #00387A;
-    color: #fff;
+    background-color: #FFFFFF;
+    color: #00387A;
     border: none;
     border-radius: 0 0 8px 8px;
     cursor: pointer;

@@ -1,68 +1,65 @@
-# Getting Started with Create React App
+# UCLAble
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Because every Bruin deserves accessibility.
 
-## Available Scripts
+Roughly 15% of UCLA students have reported having a disability. So, our team realized that needed an app that empowered differently-abled people to navigate UCLA.
 
-In the project directory, you can run:
+Sure, UCLA has the best college campus in the nation. But it's not perfect. Every now and then, we come across out-of-order elevators, damaged pavements, incorrectly-placed stop signs, poor lighting, lack of crossing mechanisms, and other issues that affect the ability of differently-abled persons to navigate campus. UCLAble is a platform that allows Bruins to draw attention to these issues and take one step towards making UCLA a more inclusive community. Here on UCLAble, you can file accessibility reports, view existing reports, and vote on issues, with the assurance that all content is posted by verified UCLA students.
 
-### `npm start`
+We're making a difference for Bruins, by Bruins.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
+Before running the application, ensure you have the following installed:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js (version 12 or higher recommended)
+- npm package manager
+- MongoDB
 
-### `npm test`
+## Clone the Repository
+Clone the application's GitHub repository to your local machine:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+git clone https://github.com/leonnorfleet/UCLAble
+```
 
-### `npm run build`
+## Install Dependencies
+Navigate into the root directory of the cloned repository and install the Node dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+cd UCLAble
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This will install all modules listed in `package.json`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Start the Backend Server 
+The backend server connects the application to the MongoDB database.
 
-### `npm run eject`
+Navigate to the server files directory:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+cd server_files
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Start the server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+nodemon insert.js 
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The `insert.js` file establishes a connection to MongoDB and exposes REST API endpoints for CRUD operations.
 
------------------------------------------------------------------------------------------------------------
-# UCLAble---CS35L-Group-Project
-Repo for CS35L Group Project 
+## Run the Frontend React Application
+Open a new terminal session and navigate to the root of the cloned repository.
 
-Clone the github repo
+Start the React development server:
 
-While in the main directory, run the command npm install
+```
+npm start
+```
 
-How to run server code:
-  1. cd into /server_files/ (backend)
-  2. run the command nodemon insert.js to run the server
+This will launch the React app on port 3000. 
 
-How to run the client application (frontend) :
-  1. In a separate terminal, cd into the main directory
-  2. run the command npm start
-  3. keep in mind that the react app only works properly when the insert.js file in the server directory is running
-  4. changes can be seen with the changes.js node server(optional)
+Now you can navigate to `http://localhost:3000` to use the application.
 
-Notes:
-  - insert.js(located in the server_files directory) is a prototype for uploading data into the MongoDB database(works properly, need to implement a react form and send the data that way)
-  - changes.js(located in the server_files directory) is a prototype for listening for changes to the data in the MongoDB database(works)
-  - index.js(located in the server_files directory) was a random first attempt, isn't important
-  - The react code for uploading the data is in Post.js(located in client/src)
-  - WARNING!!! I did not add error handling for posting duplicates to MongoDB so keep that in mind when the node server crashes/the react app gives errors in the console
-
-  
-
+**Note:** The React application relies on the backend server running to integrate with the database. Keep `insert.js` running throughout using the application.
