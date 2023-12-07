@@ -14,7 +14,7 @@ function AccountForm({ mode, onSubmit }) {
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
         function validateEmail(email) {
             const regex = /@(g\.)?ucla\.edu$/;
