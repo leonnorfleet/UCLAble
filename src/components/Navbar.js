@@ -1,12 +1,55 @@
 import React from 'react';
-import { Link } from "react-router-dom"
-import '../styles/navbar.css'
+import { Link } from 'react-router-dom';
+import '../styles/navbar.css';
 import logo from '../imgs/uclable_logo.png';
 import ThemeToggle from './ThemeToggle.js';
+import { GoogleLogin } from 'react-google-login';
+import { useAuth } from './AuthenticationState'; 
 
 export default function Navbar() {
-    return (
+    const { user, login, logout } = useAuth();
+    const responseGoogle = async (response) => {
+        try {
+            const tokenId = response.tokenId;
+            const serverResponse = await fetch('/google-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: tokenId }),
+            });
+            const data = await serverResponse.json();
+    
+            if (data.success) {
+                console.log('Google Sign-In successful');
+                login(data.token); 
+            } else {
+                console.log('Google Sign-In failed');
+            }
+        } catch (error) {
+            console.error('Error during Google Sign-In:', error);
+        }
+    };
+      const handleLogout = () => {
+        logout(); // Log the user out
+      };
+      return (
         <nav className="nav">
+            {/* Display login/logout buttons based on authentication state */}
+            {user ? (
+                <>
+                    <p>Welcome, {user.name}!</p>
+                    <button onClick={handleLogout}>Logout</button>
+                </>
+            ) : (
+                <GoogleLogin
+                    clientId="77081081456-7du49eo167ere00c7npqidttt56qcjlu.apps.googleusercontent.com"
+                    buttonText="Login with Google"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                />
+            )}
             <div className="nav-logo">
                 <img src={logo} alt="UCLAble Logo"/>
             </div>
@@ -16,10 +59,7 @@ export default function Navbar() {
                 <li><Link to="/see-reports">View Reports</Link></li>
             </ul>
             <ul className="nav-links-right">
-                {/* Links to the signup and login pages */}
-                <li><Link to="/signup">Sign Up</Link></li>
-                <li><Link to="/login">Log In</Link></li>
-                <li><ThemeToggle/></li>
+                <li><ThemeToggle /></li>
             </ul>
         </nav>
     )

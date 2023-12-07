@@ -7,7 +7,6 @@ import AccountForm from './components/AccountForm.js'
 import SignUp from './components/SignUp.js'
 import axios from 'axios'; //HTTP client for making API requests
 
-
 function App() {
 
   /* Testing out how to sort dates by recency
