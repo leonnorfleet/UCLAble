@@ -31,6 +31,7 @@ async function run() {
     const mongoClient = await client.connect();
     const database = mongoClient.db('uclable_data');
     const users = database.collection('forms');
+    const accounts = database.collection('accounts');
     console.log('Connected to MongoDB.');
 
 
@@ -67,16 +68,21 @@ async function run() {
       updateVote(body, users);
     })
 
-    app.post('/account-interact', (req, res) => {
+    app.post('/account-interact', async (req, res) => {
       const body = req.body;
       let data = {
         id: body.id,
         email: body.email,
         name: body.name,
-        picture: body.picture,
         likes: []
       }
-      res.json(data);
+      let account = await checkAccount(data, accounts);
+      if (account == null) {
+        res.json(data);
+      }
+      else {
+        res.json(account);
+      }
     })
 
   } finally {
@@ -100,4 +106,24 @@ async function updateVote(data, coll) {
       }
     );
     console.log(`The votes were updated for a document with the _id: ${data.idString}`);
+}
+
+async function checkAccount(data, coll) {
+  const query = { id: data.id };
+
+  try {
+    const result = await coll.findOne(query);
+
+    if (result == null) {
+      await uploadData(data, coll);
+      console.log('Account not found, created a new one.');
+      return null;
+    } else {
+      console.log(`Account exists under document with the _id: ${result._id}`);
+      return result;
+    }
+  } catch (error) {
+    console.error('Error checking account:', error);
+    return null;
+  }
 }
