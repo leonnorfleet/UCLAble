@@ -51,7 +51,7 @@ async function run() {
     app.post('/upload-report', (req, res) => { 
       const body = req.body;
       let data = {
-        userId: body.userId, //frontend now sends userid
+        userId: body.uid, //frontend now sends userid
         name: body.name,
         date: new Date(),
         location: body.location,
@@ -101,12 +101,31 @@ async function run() {
       }
     })
 
-    app.get('/count-liked-posts', async (req, res) => {
-      const userId = req.query.userId;
-      const count = await users.countDocuments({"likes": userId});
-      res.json({ count });
-    });
+    app.get('/user-profile', async (req, res) => {
+      try {
+        const userId = req.query.userId;
+        const userProfile = await accounts.findOne({ id: userId });
     
+        if (!userProfile) {
+          return res.status(404).json({ message: "User not found" });
+        }
+    
+        const postCount = await forms.countDocuments({ 'userId': userId });
+        const likedPostCount = userProfile.likes.length;
+    
+        const profileData = {
+          name: userProfile.name,
+          email: userProfile.email,
+          numberOfPosts: postCount,
+          numberOfLikedPosts: likedPostCount
+        };
+    
+        res.json(profileData);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    });    
 
   } finally {
     // Close the MongoDB client connection
