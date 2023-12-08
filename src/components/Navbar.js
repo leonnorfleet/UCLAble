@@ -21,6 +21,7 @@ export default function Navbar(props) {
                 ''
             )}
             <props.button/>
+            <li className="spacer"></li>
             <li><ThemeToggle/></li>
             </ul>
         </nav>
