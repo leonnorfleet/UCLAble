@@ -52,6 +52,7 @@ function Form(props) {
                     options={uclaBuildings}
                     isClearable={true}
                     onChange={handleSelect}
+                    placeholder={'Select a Location...'}
                 />
 
                 <label htmlFor='title'></label>
