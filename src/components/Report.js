@@ -1,4 +1,5 @@
 import { useEffect} from "react";
+import '../styles/report.css'
 
 function Report(props) {
 
@@ -18,8 +19,8 @@ function Report(props) {
     let fdate = props.date.toLocaleString('en-US', options)
 
     return (
-        <div>
-            <div>
+        <div className="big-report-container">
+                <div className="text-report-container">
                 <h2>{props.title}</h2>
                 <p>Posted by: {props.name} on {fdate}</p>
                 <p>Location: {props.location}</p>
