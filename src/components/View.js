@@ -112,15 +112,16 @@ const ReportPopups = ({original, forms, profile, func}) => {
     }, [original]);
 
     return (
-        <>
+        <div className="report-list">
         {forms.map((item, index) => {
                 return (
                     <li key={index}>
-                        <div onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
-                            {item.title}
-                        </div>
-                        <br/>
+                        <div className="report-item">
+                            <div className="report-item-block" onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
+                                {item.title}
+                            </div>
                         <button onClick={() => {Vote(item._id, index)}}>{'^'} {item.votes}</button>
+                        </div>
                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
@@ -136,7 +137,7 @@ const ReportPopups = ({original, forms, profile, func}) => {
                     </li>   
                 )
             })}
-        </>
+        </div>
     );
 }
 
