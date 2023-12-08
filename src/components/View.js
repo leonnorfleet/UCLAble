@@ -120,7 +120,7 @@ const ReportPopups = ({original, forms, profile, func}) => {
                             <div className="report-item-block" onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
                                 {item.title}
                             </div>
-                        <button onClick={() => {Vote(item._id, index)}}>{'^'} {item.votes}</button>
+                        <button onClick={() => {Vote(item._id, index)}}>{`☝️`} {item.votes}</button>
                         </div>
                         <Popup 
                             trigger={isOpen[index]}
