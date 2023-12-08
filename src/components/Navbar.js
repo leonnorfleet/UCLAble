@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import '../styles/navbar.css'
-import logo from '../imgs/uclable_logo.png';
+import logo from '../imgs/logo.png';
+import ThemeToggle from './ThemeToggle.js';
 
 export default function Navbar(props) {
     return (
@@ -14,8 +15,9 @@ export default function Navbar(props) {
                 <li><Link to="/see-reports">View Reports</Link></li>
             </ul>
             <ul className="nav-links-right">
-            <p>{props.profile ? props.profile.name : ''}</p>
+            <li>{props.profile ? props.profile.name : ''}</li>
             <props.button/>
+            <li><ThemeToggle/></li>
             </ul>
         </nav>
     )
