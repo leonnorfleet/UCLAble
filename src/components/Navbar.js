@@ -1,6 +1,9 @@
-import '../styles/navbar.css';
-import logo from '../imgs/uclable_logo.png';
+
 import { Link, useNavigate } from "react-router-dom";
+import '../styles/navbar.css'
+import logo from '../imgs/logo.png';
+import ThemeToggle from './ThemeToggle.js';
+
 
 export default function Navbar(props) {
     const navigate = useNavigate();
@@ -30,6 +33,7 @@ export default function Navbar(props) {
                 <li>
                     <props.button/>
                 </li>
+            <li><ThemeToggle/></li>
             </ul>
         </nav>
     );

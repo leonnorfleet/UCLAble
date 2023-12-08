@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
 import Form from './Form';
+import '../styles/post.css';
 
 function Post(props) {
 
@@ -10,11 +11,13 @@ function Post(props) {
     }
 
     return (
-        <div>
-            <h1>Post a Report</h1>
-            {/*<p>{props.profile ? props.profile.name : 'log in I know where you live'}</p>*/}
-            <br/>
-            <Form func={handleClick} profile={props.profile}/>
+        <div className="post-container">
+             <div className="report-container">
+                <h1>Post a Report</h1>
+                {/*<p>{props.profile ? props.profile.name : 'log in I know where you live'}</p>*/}
+                <br/>
+                <Form func={handleClick} profile={props.profile}/>
+            </div>
         </div>
     );
 }
