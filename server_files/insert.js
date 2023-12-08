@@ -92,7 +92,7 @@ async function run() {
       const result = await accounts.findOne(query); // check if an account exists
 
       if (result == null) {
-        const newact = await uploadData(data, coll);
+        const newact = await uploadData(data, accounts);
         console.log('Account not found, created a new one.');
         res.json(newact);
       } else {
