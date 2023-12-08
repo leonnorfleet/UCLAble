@@ -96,7 +96,7 @@ function App() {
         <Route path='/make-a-report' element={<Post profile={profile}/>}></Route>
         <Route path='see-reports' element={<View profile={profile}/>}></Route>
         <Route path='/profile' element={<Profile profile={profile} likes={likedPostsCount} />}></Route>
-        <Route path='/' element={<Home profile={profile}/>}></Route>
+        <Route path='/' element={<Home profile={profile} button={abutton}/>}></Route>
       </Routes>
     </div>
     {/*profile ? (
