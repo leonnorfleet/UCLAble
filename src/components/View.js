@@ -5,6 +5,7 @@ import Popup from './Popup';
 import CreatableSelect from 'react-select/creatable'
 import options from '../objects/Filters';
 import { voteSort, dateSort, titleSort, locationSort } from '../objects/Sorts';
+import '../styles/view.css';
 
 function View(props) {
     const [initial, setInit] = useState([]); // Original copy for reversion
@@ -65,14 +66,19 @@ function View(props) {
     }
 
     return (
-        <>
-        <CreatableSelect
-            options={options}
-            isClearable={true}
-            onChange={handleChange}
-        />
+        <div className="view-container">
+            <h1>Reports</h1>
+            <div className="filter-container">
+            <h2>Filter by:</h2>
+            <CreatableSelect
+                className="custom-select"
+                options={options}
+                isClearable={true}
+                onChange={handleChange}
+            />
+        </div>
         <ReportPopups forms={formData} original={initial} profile={props.profile} func={setForms}/>
-        </>
+        </div>
     )
 }
 
