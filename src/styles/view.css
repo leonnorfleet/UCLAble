@@ -15,7 +15,7 @@
     margin-bottom: 10px;
 }
 
-.view-container h2 {
+.filter-container h2 {
     color: var(--text-color);
     font-size: 18px;
 }
@@ -24,12 +24,18 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    color: #00387A;
 }
 
 
 .custom-select {
     flex: 1; 
     margin-right: 5px; 
+    color: #00387A;
+}
+
+.custom-select-container h2 {
+    color: #00387A;
 }
 
   
@@ -50,6 +56,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
     background-color: #FFFFFF;
+    color: #00387A;
 }
 
 .report-item-block {

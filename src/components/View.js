@@ -70,12 +70,14 @@ function View(props) {
             <h1>Reports</h1>
             <div className="filter-container">
             <h2>Filter by:</h2>
-            <CreatableSelect
-                className="custom-select"
-                options={options}
-                isClearable={true}
-                onChange={handleChange}
-            />
+                <div className="custom-select-container">
+                    <CreatableSelect
+                        className="custom-select"
+                        options={options}
+                        isClearable={true}
+                        onChange={handleChange}
+                    />
+            </div>
         </div>
         <ReportPopups forms={formData} original={initial} profile={props.profile} func={setForms}/>
         </div>
