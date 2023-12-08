@@ -45,6 +45,7 @@ const uclaBuildings = [
     { value: 'Moore Hall', label: 'Moore Hall' },
     { value: 'Murphy Hall', label: 'Murphy Hall' },
     { value: 'Ostin Music Center', label: 'Ostin Music Center' },
+    { value: 'Other', label: 'Other' },
     { value: 'Pauley Pavilion', label: 'Pauley Pavilion' },
     { value: 'Physics and Astronomy Building', label: 'Physics and Astronomy Building' },
     { value: 'Powell Library', label: 'Powell Library' },
