@@ -43,3 +43,7 @@
   .nav a:hover {
     color: #FFD100;
   }
+
+  .nav-links-right .spacer {
+    margin-right: 5px;
+  }

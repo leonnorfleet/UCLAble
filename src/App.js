@@ -76,9 +76,9 @@ function App() {
     return (
       <>
       {profile ? (
-        <button onClick={logOut}>Log out</button>
+        <button onClick={logOut}>Log Out</button>
       ) : (
-        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+        <button onClick={() => login()}>Sign In </button>
       )}
       </>
     );

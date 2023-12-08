@@ -17,6 +17,7 @@ export default function Navbar(props) {
             <ul className="nav-links-right">
             <li>{props.profile ? props.profile.name : ''}</li>
             <props.button/>
+            <li className="spacer"></li>
             <li><ThemeToggle/></li>
             </ul>
         </nav>
