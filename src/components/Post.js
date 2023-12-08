@@ -15,7 +15,6 @@ function Post(props) {
              <div className="report-container">
                 <h1>Post a Report</h1>
                 {/*<p>{props.profile ? props.profile.name : 'log in I know where you live'}</p>*/}
-                <br/>
                 <Form func={handleClick} profile={props.profile}/>
             </div>
         </div>
