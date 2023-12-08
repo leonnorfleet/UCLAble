@@ -4,8 +4,7 @@ import Navbar from './components/Navbar';
 import Post from './components/Post';
 import View from './components/View';
 import Home from './components/Home';
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';  
-import Profile from './components/Profile';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
 function App() {
@@ -51,7 +50,7 @@ function App() {
 
           axios.post('http://localhost:8080/account-interact', profileinf)
           .then(res => {
-            console.log(res.data);
+            //console.log(res.data);
           })
           .catch(err => {
             console.log(err);
@@ -86,16 +85,29 @@ function App() {
   }
 
   return (
+    // The profile needs to be passed to every component that handles account information and data modification
     <>
+    <div>
+    <Navbar profile={profile} button={abutton}/>
+      <Routes>
+        <Route path='/make-a-report' element={<Post profile={profile}/>}></Route>
+        <Route path='see-reports' element={<View profile={profile}/>}></Route>
+        <Route path='/' element={<Home profile={profile}/>}></Route>
+      </Routes>
+    </div>
+    {/*profile ? (
       <div>
-        <Navbar profile={profile} button={abutton} />
-        <Routes>
-          <Route path='/make-a-report' element={<Post profile={profile} />} />
-          <Route path='/see-reports' element={<View profile={profile} />} />
-          <Route path='/profile/:userId' element={<Profile />} />
-          <Route path='/' element={<Home profile={profile} />} />
-        </Routes>
+        <img src={profile.picture} alt="user" />
+        <h3>User Logged in</h3>
+        <p>Name: {profile.name}</p>
+        <p>Email Address: {profile.email}</p>
+        <br />
+        <br />
+        <button onClick={logOut}>Log out</button>
       </div>
+      ) : (
+        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+      )*/}
     </>
   );
 }
