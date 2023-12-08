@@ -17,6 +17,7 @@ function Home(props) {
                 {appDescription.map((paragraph, index) => (
                  <p key={index}>{paragraph}</p>
                 ))}
+                <props.button/>
             </div>
         </div>
     )

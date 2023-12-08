@@ -1,0 +1,31 @@
+.profile-container {
+  width: 80%; /* Adjust the width as needed */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--middle-color);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  color: var(--text-color);
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.profile-container p {
+  color: var(--text-color);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+  
+  .loading-container {
+    text-align: center;
+    margin: 20px;
+    color: var(--text-color);
+  }
+  
+  
