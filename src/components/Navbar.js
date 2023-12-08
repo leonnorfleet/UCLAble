@@ -7,7 +7,7 @@ export default function Navbar(props) {
     return (
         <nav className="nav">
             <div className="nav-logo">
-                <img src={logo} alt="UCLAble Logo"/>
+            <Link to="/"><img src={logo} alt="UCLAble Logo"/></Link>
             </div>
             <ul className="nav-links-left">
                 <li><Link to="/">Home</Link></li>
