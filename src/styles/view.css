@@ -2,13 +2,13 @@
     margin: 20px auto;
     padding: 20px;
     max-width: 800px;
-    background-color: #dfedff;
+    background-color: var(--middle-color);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .view-container h1 {
-    color: #00387A;
+    color: var(--text-color);
     font-size: 30px;
     font-weight: bold;
     text-align: center;
@@ -16,7 +16,7 @@
 }
 
 .view-container h2 {
-    color: #00387A;
+    color: var(--text-color);
     font-size: 18px;
 }
 
