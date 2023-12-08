@@ -82,7 +82,7 @@ async function run() {
 
     app.post('/account-interact', async (req, res) => {
       const body = req.body;
-      let data = {
+      let data = { // Data template for new accounts
         id: body.id,
         email: body.email,
         name: body.name,
@@ -90,16 +90,22 @@ async function run() {
       }
       const query = { id: data.id };
       const result = await accounts.findOne(query); // check if an account exists
-    
+
       if (result == null) {
-        const newact = await uploadData(data, accounts);
+        const newact = await uploadData(data, coll);
         console.log('Account not found, created a new one.');
-        res.json({...newact, likedPostsCount: 0});
+        res.json(newact);
       } else {
         console.log(`Account exists under document with the _id: ${result._id}`);
-        res.json({...result, likedPostsCount: result.likes.length});
+        res.json(result);
       }
     })
+
+    app.get('/count-liked-posts', async (req, res) => {
+      const userId = req.query.userId;
+      const count = await users.countDocuments({"likes": userId});
+      res.json({ count });
+    });
     
 
   } finally {
