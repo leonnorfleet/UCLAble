@@ -34,6 +34,11 @@
     color: #00387A;
 }
 
+.custom-select-container {
+    flex: 1; 
+    color: #00387A;
+}
+
 .custom-select-container h2 {
     color: #00387A;
 }
