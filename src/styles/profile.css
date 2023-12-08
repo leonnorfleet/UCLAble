@@ -1,0 +1,33 @@
+
+.profile-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #3498db;
+    border-radius: 8px;
+    background-color: #ecf0f1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+  }
+  
+  .profile-container h2 {
+    color: #3498db;
+    text-align: center; /* Center the header text */
+  }
+  
+  .profile-container p {
+    margin: 10px 0;
+    color: #555;
+  }
+  
+  .loading-container {
+    text-align: center;
+    margin: 20px;
+    color: #777;
+  }
+  
+  
