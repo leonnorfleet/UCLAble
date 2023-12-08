@@ -82,7 +82,7 @@ async function run() {
 
     app.post('/account-interact', async (req, res) => {
       const body = req.body;
-      let data = { // Data template for new accounts
+      let data = {
         id: body.id,
         email: body.email,
         name: body.name,
@@ -90,42 +90,17 @@ async function run() {
       }
       const query = { id: data.id };
       const result = await accounts.findOne(query); // check if an account exists
-
+    
       if (result == null) {
-        const newact = await uploadData(data, coll);
+        const newact = await uploadData(data, accounts);
         console.log('Account not found, created a new one.');
-        res.json(newact);
+        res.json({...newact, likedPostsCount: 0});
       } else {
         console.log(`Account exists under document with the _id: ${result._id}`);
-        res.json(result);
+        res.json({...result, likedPostsCount: result.likes.length});
       }
     })
-
-    app.get('/user-profile', async (req, res) => {
-      try {
-        const userId = req.query.userId;
-        const userProfile = await accounts.findOne({ id: userId });
     
-        if (!userProfile) {
-          return res.status(404).json({ message: "User not found" });
-        }
-    
-        const postCount = await forms.countDocuments({ 'userId': userId });
-        const likedPostCount = userProfile.likes.length;
-    
-        const profileData = {
-          name: userProfile.name,
-          email: userProfile.email,
-          numberOfPosts: postCount,
-          numberOfLikedPosts: likedPostCount
-        };
-    
-        res.json(profileData);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-      }
-    });    
 
   } finally {
     // Close the MongoDB client connection
