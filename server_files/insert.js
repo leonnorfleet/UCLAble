@@ -51,7 +51,7 @@ async function run() {
     app.post('/upload-report', (req, res) => { 
       const body = req.body;
       let data = {
-        userId: body.userId, //frontend now sends userid
+        userId: body.uid, //frontend now sends userid
         name: body.name,
         date: new Date(),
         location: body.location,

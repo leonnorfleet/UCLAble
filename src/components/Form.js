@@ -32,7 +32,8 @@ function Form(props) {
         }
       
         // If all fields are not empty, execute the following code
-        let subData = {name: props.profile.name, location: option.label, title: formData.title, description: formData.description};
+        let subData = {uid: props.profile.id, name: props.profile.name, location: option.label,
+            title: formData.title, description: formData.description};
         props.func(subData);
         //console.log(subData);
         setFormData({title: '', description: '' });
