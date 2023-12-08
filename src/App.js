@@ -8,7 +8,6 @@ import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Profile from './components/Profile';
 
-
 function App() {
   const [ user, setUser ] = useState([]);
   const [ profile, setProfile ] = useState([]); // The data given by GoogleLogin such as name, email, etc
@@ -28,11 +27,6 @@ function App() {
     if (storedToken) {
       setUser({ access_token: storedToken });
     }
-    axios.get(`http://localhost:8080/count-liked-posts?userId=${profile.id}`)
-      .then((res) => {
-      setLikedPostsCount(res.data.count);
-      })
-      .catch((err) => console.log(err));
   }, []);
 
   const login = useGoogleLogin({
@@ -85,9 +79,9 @@ function App() {
     return (
       <>
       {profile ? (
-        <button onClick={logOut}>Log out</button>
+        <button onClick={logOut}>Log Out</button>
       ) : (
-        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+        <button onClick={() => login()}>Sign In </button>
       )}
       </>
     );
@@ -101,7 +95,7 @@ function App() {
       <Routes>
         <Route path='/make-a-report' element={<Post profile={profile}/>}></Route>
         <Route path='see-reports' element={<View profile={profile}/>}></Route>
-        <Route path='/profile' element={<Profile profile={profile} likedPostsCount={likedPostsCount} />}></Route>
+        <Route path='/profile' element={<Profile profile={profile} likes={likedPostsCount} />}></Route>
         <Route path='/' element={<Home profile={profile}/>}></Route>
       </Routes>
     </div>
