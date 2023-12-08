@@ -15,12 +15,12 @@ export default function Navbar(props) {
                 <li><Link to="/see-reports">View Reports</Link></li>
             </ul>
             <ul className="nav-links-right">
-            <li>{props.profile ? (
-                <Link to="/profile">{props.profile.name}</Link>
+            {props.profile ? (
+                <li><Link to="/profile">{props.profile.name}</Link></li>
                 ) : (
                 ''
             )}
-            <props.button/></li>
+            <props.button/>
             <li><ThemeToggle/></li>
             </ul>
         </nav>

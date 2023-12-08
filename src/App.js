@@ -59,6 +59,7 @@ function App() {
           axios.post('http://localhost:8080/account-interact', profileinf)
           .then(res => {
             //console.log(res.data);
+            setLikedPostsCount(res.data.likes.length);
           })
           .catch(err => {
             console.log(err);
