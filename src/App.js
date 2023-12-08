@@ -6,6 +6,8 @@ import View from './components/View';
 import Home from './components/Home';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import Profile from './components/Profile';
+
 
 function App() {
   const [ user, setUser ] = useState([]);
@@ -93,6 +95,7 @@ function App() {
         <Route path='/make-a-report' element={<Post profile={profile}/>}></Route>
         <Route path='see-reports' element={<View profile={profile}/>}></Route>
         <Route path='/' element={<Home profile={profile}/>}></Route>
+        <Route path='/profile' element={<Profile profile={profile}/>}></Route>
       </Routes>
     </div>
     {/*profile ? (

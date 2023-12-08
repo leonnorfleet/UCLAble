@@ -15,8 +15,8 @@ export default function Navbar(props) {
                 <li><Link to="/see-reports">View Reports</Link></li>
             </ul>
             <ul className="nav-links-right">
-            <li>{props.profile ? props.profile.name : ''}</li>
-            <props.button/>
+            <li>{props.profile && <Link to="/profile">{props.profile.name}</Link>}
+            <props.button/></li>
             <li><ThemeToggle/></li>
             </ul>
         </nav>
