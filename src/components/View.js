@@ -5,6 +5,7 @@ import Popup from './Popup';
 import CreatableSelect from 'react-select/creatable'
 import options from '../objects/Filters';
 import { voteSort, dateSort, titleSort, locationSort } from '../objects/Sorts';
+import '../styles/view.css';
 
 function View(props) {
     const [initial, setInit] = useState([]); // Original copy for reversion
@@ -65,14 +66,19 @@ function View(props) {
     }
 
     return (
-        <>
-        <CreatableSelect
-            options={options}
-            isClearable={true}
-            onChange={handleChange}
-        />
+        <div className="view-container">
+            <h1>Reports</h1>
+            <div className="filter-container">
+            <h2>Filter by:</h2>
+            <CreatableSelect
+                className="custom-select"
+                options={options}
+                isClearable={true}
+                onChange={handleChange}
+            />
+        </div>
         <ReportPopups forms={formData} original={initial} profile={props.profile} func={setForms}/>
-        </>
+        </div>
     )
 }
 
@@ -106,15 +112,16 @@ const ReportPopups = ({original, forms, profile, func}) => {
     }, [original]);
 
     return (
-        <>
+        <div className="report-list">
         {forms.map((item, index) => {
                 return (
                     <li key={index}>
-                        <div onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
-                            {item.title}
+                        <div className="report-item">
+                            <div className="report-item-block" onClick={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}>
+                                {item.title}
+                            </div>
+                        <button onClick={() => {Vote(item._id, index)}}>{'⬆'} {item.votes}</button>
                         </div>
-                        <br/>
-                        <button onClick={() => {Vote(item._id, index)}}>{'^'} {item.votes}</button>
                         <Popup 
                             trigger={isOpen[index]}
                             handleClose={() => setOpen(prevState => prevState.map((state, i) => (i === index ? !state : state)))}
@@ -130,7 +137,7 @@ const ReportPopups = ({original, forms, profile, func}) => {
                     </li>   
                 )
             })}
-        </>
+        </div>
     );
 }
 

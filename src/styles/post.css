@@ -21,17 +21,19 @@
     width: 50%;
   }
   
-  .post-container h1 {
+  .report-container h1 {
     color: #00387A;
     font-size: 30px;
     font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
   }
   
   .post-container form {
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin: 0 auto;
+    margin: 0;
   }
   
   .post-container input {
@@ -55,7 +57,7 @@
     width: 100%;
     font-size: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 0px;
+    margin-bottom: 10px;
   }
   
   .post-container button:hover {

@@ -31,7 +31,7 @@
   }
   
   .nav-links-right li {
-    margin: 40px;
+    margin: 20px;
   }
   
   .nav a {
@@ -42,4 +42,8 @@
   
   .nav a:hover {
     color: #FFD100;
+  }
+
+  .nav-links-right .spacer {
+    margin-right: 5px;
   }
