@@ -99,33 +99,7 @@ async function run() {
         console.log(`Account exists under document with the _id: ${result._id}`);
         res.json(result);
       }
-    })
-
-    app.get('/user-profile', async (req, res) => {
-      try {
-        const userId = req.query.userId;
-        const userProfile = await accounts.findOne({ id: userId });
-    
-        if (!userProfile) {
-          return res.status(404).json({ message: "User not found" });
-        }
-    
-        const postCount = await forms.countDocuments({ 'userId': userId });
-        const likedPostCount = userProfile.likes.length;
-    
-        const profileData = {
-          name: userProfile.name,
-          email: userProfile.email,
-          numberOfPosts: postCount,
-          numberOfLikedPosts: likedPostCount
-        };
-    
-        res.json(profileData);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-      }
-    });    
+    })  
 
   } finally {
     // Close the MongoDB client connection
